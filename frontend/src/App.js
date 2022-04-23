@@ -1,12 +1,22 @@
 import './App.css';
+import Home from './pages/Home.js';
+import Login from './pages/Login.js';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-          <h2> Meladie Prediction </h2>
-      </header>
-    </div>
+    <Router>
+    <Routes>
+      <Route exact path="/" element={<Home/>} />
+      <Route path="/login" element={<Login/>} />
+    </Routes>
+  </Router>
   );
 }
 

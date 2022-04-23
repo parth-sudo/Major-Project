@@ -1,0 +1,9 @@
+.header{
+    display : flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px;
+    background-color: aqua;
+   padding : 20px;
+}
