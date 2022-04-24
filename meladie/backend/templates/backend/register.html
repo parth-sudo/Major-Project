@@ -1,6 +1,9 @@
 {% extends "backend/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
+
+<main role="main" class="container">
+  
   <div class='content-section'>
       <form method="POST">
           {% csrf_token %}
@@ -14,8 +17,10 @@
       </form>
       <div class="border-top pt-3">
           <small class="text-muted">
-              Already have an account? <a class="ml-2" href="login/">Login</a>
+              Already have an account? <a class="ml-2" href="{% url 'login' %}">Login</a>
           </small>
       </div>
   </div>
+</main>
+
 {% endblock %}

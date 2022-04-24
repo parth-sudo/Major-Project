@@ -1,10 +1,60 @@
 {% extends "backend/base.html"%}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block content %}
 
-     <h2> Home page </h2>
-     <h2> Home page </h2>
-     <h2> Home page </h2>
-     <h2> Home page </h2>
+<link rel="stylesheet" type="text/css" href="{% static 'backend/home.css' %}">
+
+    <body style="background-color: #11072E;">
+
+      <h2 style="text-align:center; margin:10px; color:white"> Maladie Prediction</h2>
+      
+      <h4 style="text-align:center; color:white"> Hi, How are you feeling today? </h4>
+  
+  <a href="{% url 'prediction' %}" style="text-decoration: none">  
+    <div class="cardRow"> 
+      <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body">
+          <p class="card-text">Disease Prediction.</p>
+        </div>
+      </div>
+    </a>
+
+      <br></br>
+
+      <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body">
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="cardRow"> 
+      <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body">
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+
+      <br></br>
+
+      <a href="{% url 'analyze' %}" style="text-decoration: none">  
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="..." alt="Card image cap">
+            <div class="card-body">
+              <p class="card-text">Save and analyze results.</p>
+            </div>
+        </div>
+      </a>
+
+    </div>
+
+   <a href="{% url 'login' %}"> <button type="button" class="btn btn-light">Login</button> </a>  
+
+  </body>
 
 {% endblock %}

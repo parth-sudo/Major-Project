@@ -1,21 +1,37 @@
 {% extends "backend/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-  <div class='content-section'>
-      <form method="POST">
-          {% csrf_token %}
-          <fieldset class="form-group">
-              <legend class="border-bottom mb-4"> Log in </legend>
-              {{ form|crispy }}
-          </fieldset>
-          <div class="form-group">
-              <button class="btn btn-dark" type="submit">Log in</button>
-          </div>
-      </form>
-      <div class="border-top pt-3">
-          <small class="text-muted">
-              Don't have an account? <a class="ml-2" href="register/">Sign up</a>
-          </small>
+
+<main role="main" class="container">
+    <div class="row">
+      <div class="col-md-8">
+
+        <div class='content-section'>
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4"> Log in </legend>
+                    {{ form|crispy }}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-dark" type="submit">Log in</button>
+                </div>
+            </form>
+            <div class="border-top pt-3">
+                <small class="text-muted">
+                    Don't have an account? <a class="ml-2" href="{% url 'register' %}">Sign up</a>
+                </small>
+            </div>
+        </div>
+        
       </div>
-  </div>
+      <div class="col-md-4">
+        <div class="content-section">
+            <h3 style="color:blue;"> DDHM: <b style="color:orange;"> Disease Detection and Health Monitor</b> </h3>
+
+        </div>
+      </div>
+    </div>
+  </main>
+  
 {% endblock %}

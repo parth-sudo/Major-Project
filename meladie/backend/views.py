@@ -8,7 +8,7 @@ def home(request):
 
 def register(request):
     if request.method == 'POST':
-        form = UserRegisterForm(request.POST)
+        form = UserRegisterForm(request.POST or None)
         if form.is_valid():
             form.save()
             username=form.cleaned_data.get('username')
@@ -17,6 +17,14 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request,'backend/register.html', {'form':form})
+
+def analyze(request):
+    #todo
+    return render(request,'backend/analyze.html', {})
+
+def disease_prediction(request):
+    #todo
+    return render(request,'backend/disease_prediction.html', {})
 
 
 def about(request):

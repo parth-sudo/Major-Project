@@ -14,7 +14,7 @@
 
 </head>
 <body>
-    <header class="site-header">
+    {% comment %} <header class="site-header">
       <nav class="navbar navbar-light fixed-top" style="background-color: #e3f2fd;">
         <div class="container">
           <a class="navbar-brand mr-4" href="#">Maladie Prediction</a>
@@ -38,15 +38,12 @@
           </div>
         </div>
       </nav>
-    </header>
-    <main role="main" class="container">
-      <div class="row">
-        <div class="col-md-8">
+    </header> {% endcomment %}
+  
+        <div>
           {% block content %}{% endblock %}
         </div>
-      </div>
-    </main>
-
+ 
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
