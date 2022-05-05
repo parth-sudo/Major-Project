@@ -16,45 +16,40 @@
       <div class="card" style="width: 18rem;">
         <img class="card-img-top" src="..." alt="Card image cap">
         <div class="card-body">
-          <p class="card-text">Disease Prediction.</p>
+          <p class="card-text">Disease Prediction</p>
         </div>
       </div>
     </a>
 
       <br></br>
 
-      <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="..." alt="Card image cap">
-        <div class="card-body">
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      <a href="{% url 'disease_information' %}" style="text-decoration: none">  
+        <div class="card" style="width: 18rem;">
+          <img class="card-img-top" src="..." alt="Card image cap">
+          <div class="card-body">
+            <p class="card-text">Get Disease Information</p>
+          </div>
         </div>
       </div>
-    </div>
+    </a>
 
     
     <div class="cardRow"> 
       <div class="card" style="width: 18rem;">
         <img class="card-img-top" src="..." alt="Card image cap">
         <div class="card-body">
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <p class="card-text">Consult Doctors.</p>
         </div>
       </div>
 
       <br></br>
 
-      <a href="{% url 'analyze' %}" style="text-decoration: none">  
-        <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="..." alt="Card image cap">
-            <div class="card-body">
-              <p class="card-text">Save and analyze results.</p>
-            </div>
-        </div>
-      </a>
-
     </div>
-
+  
+    <div style="text-align:center">
    <a href="{% url 'login' %}"> <button type="button" class="btn btn-light">Login</button> </a>  
-
+   </div>
+   
   </body>
 
 {% endblock %}
