@@ -10,6 +10,7 @@ class Disease(models.Model):
     def __str__(self):
         return self.name
 
+
 class Profile(models.Model):
     user=models.OneToOneField(User, on_delete=models.CASCADE)
     tests_taken = models.IntegerField(default=0)
@@ -28,6 +29,49 @@ class Doctor(models.Model):
 
     def __str__(self):
         return self.full_name
+
+GENDER_CHOICE = (
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+    )
+
+CHEST_PAIN_CHOICE = (
+      ('Typical Angina', 'Typical Angina'),
+      ('Atypical Angina', 'Atypical Angina'),
+      ('Non-Anginal Pain', 'Non-Anginal Pain'),
+      ('Asymptomatic', 'Asymptomatic'),
+)
+
+class HeartPatient(models.Model):
+    user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    age = models.CharField(max_length=3, blank = False, default=50)
+    sex = models.CharField(max_length=6, choices=GENDER_CHOICE, default='Male')  
+    chest_pain_type = models.CharField(max_length=20, choices = CHEST_PAIN_CHOICE, default='Typical Angina')
+    resting_blood_pressure = models.CharField(max_length=3, blank = False)
+    cholesterol = models.CharField(max_length=4, blank = False)
+    fasting_blood_sugar = models.CharField(max_length=10, choices=[('True', 'True'), ('False', 'False')])
+    maximum_heart_rate_achieved = models.CharField(max_length=4)
+    exercise_induced_angina = models.CharField(max_length=10, choices=[('True', 'True'), ('False', 'False')])
+
+    
+    def __str__(self):
+        return self.user_profile.user.username
+
+
+class DiabetesPatient(models.Model):
+    user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    glucose = models.CharField(max_length = 3, blank=False)
+    blood_pressuse = models.CharField(max_length = 3, blank=False)
+    insulin = models.CharField(max_length = 3, blank=False)
+    body_mass_index = models.CharField(max_length=4, blank=False)
+    age = models.CharField(max_length=3, blank=False)
+
+    def __str__(self):
+        return self.user_profile.username
+
+
+
+
 
 
 

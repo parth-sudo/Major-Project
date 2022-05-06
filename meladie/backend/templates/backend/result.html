@@ -1,0 +1,11 @@
+{% extends "backend/disease_prediction.html"%}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+
+    <div>
+    {{answer}}
+    <a href="{% url 'home' %}" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true"> Back to Home</a>
+    </div>
+
+{% endblock %} 
