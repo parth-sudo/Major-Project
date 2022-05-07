@@ -14,6 +14,7 @@ urlpatterns = [
     path('predict/', views.heart_disease_prediction, name='prediction'),
     path('information/', views.disease_information, name='disease_information'),
     path('accounts/profile/', views.profile, name='profile'),
+    path('predict_diabetes/', views.diabetes_prediction, name = 'diabetes_prediction'),
 ]
 
 if settings.DEBUG:

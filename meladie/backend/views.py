@@ -1,10 +1,10 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm, HeartPatientForm
+from .forms import UserRegisterForm, HeartPatientForm, DiabetesPatientForm
 from django.contrib.auth.models import User
 from .models import Profile
-from .predictions import heart_disease
+from .predictions import heart_disease, diabetes
 
 def home(request):
     return render(request, 'backend/home.html', {})
@@ -25,23 +25,6 @@ def analyze(request):
     #todo
     return render(request,'backend/analyze.html', {})
 
-def heart_disease_prediction_util(age, sex, chest_pain_type, resting_blood_pressure, cholesterol, fasting_blood_sugar, maximum_heart_rate_achieved, exercise_induced_angina):
-    age = int(age)
-    sex = 1 if sex == 'Male' else 0
-    dict = {'Typical Angina' : 1, 'Atypical Angina' : 2, 'Non-Anginal Pain' : 3, 'Asymptomatic' : 4}
-    chest_pain_type = dict[chest_pain_type]
-    resting_blood_pressure = int(resting_blood_pressure)
-    cholesterol = int(cholesterol)
-    fasting_blood_sugar = 1 if fasting_blood_sugar == 'True' else 0
-    maximum_heart_rate_achieved = int(maximum_heart_rate_achieved)
-    exercise_induced_angina = 1 if exercise_induced_angina == 'True' else 0
-
-    parameters = (age, sex, chest_pain_type, resting_blood_pressure, cholesterol, fasting_blood_sugar, maximum_heart_rate_achieved, exercise_induced_angina)
-
-    return heart_disease(parameters)
-
-
-
 @login_required
 def heart_disease_prediction(request):
     context = {}
@@ -49,7 +32,7 @@ def heart_disease_prediction(request):
         form = HeartPatientForm(request.POST or None)
         if form.is_valid():
             form.save()
-         
+            context['form'] = form
             age=form.cleaned_data.get('age')
             sex=form.cleaned_data.get('sex')
             chest_pain_type=form.cleaned_data.get('chest_pain_type')
@@ -59,8 +42,7 @@ def heart_disease_prediction(request):
             maximum_heart_rate_achieved = form.cleaned_data.get('maximum_heart_rate_achieved')
             exercise_induced_angina = form.cleaned_data.get('exercise_induced_angina')
 
-
-            result = heart_disease_prediction_util(age, sex, chest_pain_type, resting_blood_pressure, cholesterol, fasting_blood_sugar, maximum_heart_rate_achieved, exercise_induced_angina)
+            result = heart_disease(age, sex, chest_pain_type, resting_blood_pressure, cholesterol, fasting_blood_sugar, maximum_heart_rate_achieved, exercise_induced_angina)
             # result = 1
             print("printing result")
             print(result)
@@ -69,6 +51,30 @@ def heart_disease_prediction(request):
             return render(request, 'backend/disease_prediction.html', context)
     else:
         form = HeartPatientForm()
+    return render(request,'backend/disease_prediction.html', {'form' : form, 'answer' : ""})
+
+def diabetes_prediction(request):
+    context = {}
+    if request.method == 'POST':
+        form = DiabetesPatientForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            context['form'] = form
+            glucose=form.cleaned_data.get('glucose')
+            blood_pressuse=form.cleaned_data.get('blood_pressuse')
+            insulin=form.cleaned_data.get('insulin')
+            body_mass_index=form.cleaned_data.get('body_mass_index')
+            age=form.cleaned_data.get('age')
+
+            result = diabetes(glucose, blood_pressuse, insulin, body_mass_index, age)
+            # result = 1
+            print("printing result")
+            print(result)
+            answer = "Yes, you have a diabetes sadly." if result == 1 else "No, you don't have diabetes."
+            context['answer'] = answer
+            return render(request, 'backend/disease_prediction.html', context)
+    else:
+        form = DiabetesPatientForm()
     return render(request,'backend/disease_prediction.html', {'form' : form, 'answer' : ""})
 
 def disease_information(request):
