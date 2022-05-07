@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, HeartPatientForm, DiabetesPatientForm
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, HeartPatient, DiabetesPatient
 from .predictions import heart_disease, diabetes
 
 def home(request):
@@ -84,13 +84,12 @@ def disease_information(request):
 def profile(request):
     context = {}
     current_user = request.user
-    print(current_user)
+    # print(current_user)
     # user = get_object_or_404(User, pk=pk)
     # print(user)
-    print(current_user.id)
+    # print(current_user.id)
     profile = Profile.objects.filter(user = current_user)
- 
-    print(profile)
+
     # print(user_profile.tests_taken)
     if not profile.exists():
         user_profile = Profile.objects.create(user=current_user, tests_taken=0)
@@ -98,7 +97,22 @@ def profile(request):
         return render(request, 'backend/profile.html', {})
 
     user_profile = Profile.objects.filter(user = current_user)[0]
-    context['user_profile'] = user_profile    
+    heart_patient_array = HeartPatient.objects.all().filter(user_profile=user_profile)
+
+    cholesterol_array = []
+    blood_pressure_array = []
+    date_array = []
+    for record in heart_patient_array:
+        cholesterol_array.append(record.cholesterol)
+        blood_pressure_array.append(record.resting_blood_pressure)
+        date_array.append(record.date.date())
+        print(record.date.date())
+
+    context['user_profile'] = user_profile   
+    context['cholesterol_array'] = cholesterol_array
+    context['blood_pressure_array'] = blood_pressure_array 
+    context['date_array'] = date_array
+    
     return render(request, 'backend/profile.html', context)
 
 def about(request):
