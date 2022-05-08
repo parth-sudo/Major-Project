@@ -7,6 +7,9 @@ from django.utils import timezone
 class Disease(models.Model):
     name = models.CharField(max_length=50, unique=True)
     information = models.TextField()
+    symptoms = models.TextField(default="abc")
+    causes = models.TextField(default="abc")
+    vulnerable = models.TextField(default="abc")
     food_to_eat = models.TextField() 
 
     def __str__(self):

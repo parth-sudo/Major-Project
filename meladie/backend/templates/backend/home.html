@@ -98,9 +98,9 @@
   <body>
     <!-- The sidebar -->
     <div class="sidebar">
-      <a href="{% url 'disease_information' %}"> Disease &nbsp Information </a>
+      <a href="{% url 'heart_disease_info' %}"> Disease &nbsp Information </a>
       <a href="{% url 'prediction' %}"> Disease &nbsp Prediction </a>
-      <a href="#contact"> Consult &nbsp Doctors </a>
+      <a href="{% url 'consult_doctors' %}"> Consult &nbsp Doctors </a>
       <a href="{% url 'analyze' %}"> Analyze &nbsp Parameters </a>
     </div>
 
@@ -116,7 +116,7 @@
       </button>
 
     </div>
-<<<<<<< HEAD
+
   
     <div style="text-align:center">
       {% if user.is_authenticated %}
@@ -126,8 +126,7 @@
    <a href="{% url 'login' %}"> <button type="button" class="btn btn-light">Login</button> </a>  
    {% endif %} 
   </div>
-=======
->>>>>>> origin/harshit-ahuja
+
    
   </body>
 

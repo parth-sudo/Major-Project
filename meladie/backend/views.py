@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, HeartPatientForm, DiabetesPatientForm
 from django.contrib.auth.models import User
-from .models import Profile, HeartPatient, DiabetesPatient
+from .models import Profile, HeartPatient, DiabetesPatient, Disease
 from .predictions import heart_disease, diabetes
 
 def home(request):
@@ -77,9 +77,24 @@ def diabetes_prediction(request):
         form = DiabetesPatientForm()
     return render(request,'backend/disease_prediction.html', {'form' : form, 'answer' : ""})
 
-def disease_information(request):
+def heart_disease_information(request):
     #todo
-    return render(request,'backend/disease_information.html', {})
+    heart = Disease.objects.get(pk = 1)
+    context = {}
+    context['heart'] = heart
+    return render(request, 'backend/disease_information.html', context)
+
+def diabetes_information(request):
+    diabetes = Disease.objects.get(pk = 2)
+    context = {}
+    context['diabetes'] = diabetes
+    return render(request, 'backend/diabetes.html', context)
+
+def liver_disease_information(request):
+    liver = Disease.objects.get(pk = 3)
+    context = {}
+    context['liver'] = liver
+    return render(request, 'backend/liver.html', context)
 
 def profile(request):
     context = {}
@@ -114,6 +129,11 @@ def profile(request):
     context['date_array'] = date_array
     
     return render(request, 'backend/profile.html', context)
+
+
+def consult_doctors(request):
+    #todo.
+    return render(request, 'backend/consult_doctors.html', {})
 
 def about(request):
     return render(request,'backend/about.html',{'title':'About'})
