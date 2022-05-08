@@ -12,10 +12,15 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='backend/logout.html'), name='logout'),
     path('analyze/', views.analyze, name='analyze'),
     path('predict/', views.heart_disease_prediction, name='prediction'),
-    path('information/', views.disease_information, name='disease_information'),
+
     path('accounts/profile/', views.profile, name='profile'),
     path('predict_diabetes/', views.diabetes_prediction, name = 'diabetes_prediction'),
-]
+
+    path('information/heart_disease/', views.heart_disease_information, name = 'heart_disease_info'),
+    path('information/diabetes/', views.diabetes_information, name = 'diabetes_info'),
+    path('information/liver_disease/', views.liver_disease_information, name='liver_info'),
+    path('consult_doctors/', views.consult_doctors, name='consult_doctors'),
+]   
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
