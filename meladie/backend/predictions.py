@@ -20,7 +20,6 @@ def heart_disease(age, sex, chest_pain_type, resting_blood_pressure, cholesterol
     parameters = (age, sex, chest_pain_type, resting_blood_pressure, cholesterol, fasting_blood_sugar, maximum_heart_rate_achieved, exercise_induced_angina)
     
     heart_data = pd.read_csv("C:/Users/Admin/Downloads/heart_Data_2.csv")
-    # heart_data.head()
 
     # Splitting the features and targets
     X = heart_data.drop(columns = 'target', axis = 1)
@@ -29,10 +28,7 @@ def heart_disease(age, sex, chest_pain_type, resting_blood_pressure, cholesterol
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.20, stratify = Y, random_state = 2)
     
     model = RandomForestClassifier()
-
     model.fit(X_train, Y_train)
-
-    # YAHA PE VO DATA AAYEGA JO USER INPUT KAREGA
 
     input_data = parameters   # It a tuple data type
 
@@ -43,8 +39,9 @@ def heart_disease(age, sex, chest_pain_type, resting_blood_pressure, cholesterol
     input_data_reshaped = input_data_as_numpy_array.reshape(1,-1)
 
     prediction = model.predict(input_data_reshaped)
-
-    return prediction
+    prediction = prediction.tolist()
+    
+    return(prediction[0])
 
 
 def diabetes(glucose, blood_pressuse, insulin, body_mass_index, age):
@@ -64,20 +61,56 @@ def diabetes(glucose, blood_pressuse, insulin, body_mass_index, age):
     X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.2, stratify = Y, random_state = 2)
 
     # Training the model
-
     model = LogisticRegression()
 
     model.fit(X_train, Y_train)
 
-    # YAHA PE VO DATA AAYEGA JO USER INPUT KAREGA
-
     input_data = parameters  # It a tuple data type
 
     input_data_as_numpy_array = np.asarray(input_data)
+    input_data_reshaped = input_data_as_numpy_array.reshape(1,-1)
 
+    prediction = model.predict(input_data_reshaped)
+    prediction = prediction.tolist()
+    
+    return(prediction[0])
+
+def liver_disease(age, gender, total_bilirubin, alkaline_phosphotase, alamine_aminotransferase, total_protiens, albumin) :
+    
+    age = int(age)
+    gender = 1 if gender == 'Male' else 0
+    total_bilirubin = float(total_bilirubin)
+    alkaline_phosphotase = int(alkaline_phosphotase)
+    alamine_aminotransferase = int(alamine_aminotransferase)
+    total_protiens = float(total_protiens)
+    albumin = float(albumin)
+
+    parameters = (age, gender, total_bilirubin, alkaline_phosphotase, alamine_aminotransferase, total_protiens, albumin)
+    
+    liver_data = pd.read_csv("C:/Users/Admin/Downloads/LiverDiseaseDataset.csv")
+
+    # Separating the data and labels
+    X = liver_data.drop(columns = 'target', axis = 1)
+    Y = liver_data['target']
+
+    # Splitting training data and test data
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.2, stratify = Y, random_state = 2)
+
+    # Training the model
+    model = RandomForestClassifier()
+
+    model.fit(X_train, Y_train)
+
+    input_data = parameters   # It a tuple data type
+
+    # Change input data to a numpy array (as it is easy to re-shape a numpy array rather than a tuple)
+    input_data_as_numpy_array = np.asarray(input_data)
+
+    # reshape the numpy array as we are predicting for only one instance
     input_data_reshaped = input_data_as_numpy_array.reshape(1,-1)
 
     prediction = model.predict(input_data_reshaped)
 
-    return prediction
-
+    prediction = prediction.tolist()
+    
+    return (prediction[0])

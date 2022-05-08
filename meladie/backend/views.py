@@ -1,10 +1,10 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm, HeartPatientForm, DiabetesPatientForm
+from .forms import UserRegisterForm, HeartPatientForm, DiabetesPatientForm, LiverPatientForm
 from django.contrib.auth.models import User
 from .models import Profile, HeartPatient, DiabetesPatient, Disease
-from .predictions import heart_disease, diabetes
+from .predictions import heart_disease, diabetes, liver_disease
 
 def home(request):
     return render(request, 'backend/home.html', {})
@@ -28,8 +28,9 @@ def analyze(request):
 @login_required
 def heart_disease_prediction(request):
     context = {}
+    instance = Profile.objects.filter(user = request.user).first()
     if request.method == 'POST':
-        form = HeartPatientForm(request.POST or None)
+        form = HeartPatientForm(request.POST, instance = instance)
         if form.is_valid():
             form.save()
             context['form'] = form
@@ -51,12 +52,13 @@ def heart_disease_prediction(request):
             return render(request, 'backend/disease_prediction.html', context)
     else:
         form = HeartPatientForm()
-    return render(request,'backend/disease_prediction.html', {'form' : form, 'answer' : ""})
+    return render(request,'backend/disease_prediction.html', {'form' : form, 'answer' : "", 'user_profile' : instance})
 
 def diabetes_prediction(request):
     context = {}
+    instance = Profile.objects.filter(user = request.user).first()
     if request.method == 'POST':
-        form = DiabetesPatientForm(request.POST or None)
+        form = DiabetesPatientForm(request.POST or None, instance=instance)
         if form.is_valid():
             form.save()
             context['form'] = form
@@ -75,7 +77,36 @@ def diabetes_prediction(request):
             return render(request, 'backend/disease_prediction.html', context)
     else:
         form = DiabetesPatientForm()
-    return render(request,'backend/disease_prediction.html', {'form' : form, 'answer' : ""})
+    return render(request,'backend/disease_prediction.html', {'form' : form, 'user_profile' : instance, 'answer' : ""})
+
+
+def liver_prediction(request):
+    context = {}
+    instance = Profile.objects.filter(user = request.user).first()
+    if request.method == 'POST':
+        form = LiverPatientForm(request.POST or None, instance = instance)
+        if form.is_valid():
+            form.save()
+            context['form'] = form
+
+            age=form.cleaned_data.get('age')
+            gender=form.cleaned_data.get('gender')
+            total_bilirubin = form.cleaned_data.get('total_bilirubin')
+            alkaline_phosphotase=form.cleaned_data.get('alkaline_phosphotase')
+            alamine_aminotransferase=form.cleaned_data.get('alamine_aminotransferase')
+            total_protiens=form.cleaned_data.get('total_protiens')
+            albumin=form.cleaned_data.get('albumin')
+
+            result = liver_disease(age, gender, total_bilirubin, alkaline_phosphotase, alamine_aminotransferase, total_protiens, albumin)
+            # result = 1
+            print("printing result")
+            print(result)
+            answer = "Yes, you have a liver disease sadly." if result == 1 else "No, you don't liver disease."
+            context['answer'] = answer
+            return render(request, 'backend/disease_prediction.html', context)
+    else:
+        form = LiverPatientForm()
+    return render(request,'backend/disease_prediction.html', {'form' : form, 'answer' : "",'user_profile' : instance})
 
 def heart_disease_information(request):
     #todo

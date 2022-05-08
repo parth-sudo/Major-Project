@@ -77,6 +77,19 @@ class DiabetesPatient(models.Model):
         return self.user_profile.user.username
 
 
+class LiverPatient(models.Model):
+    user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    age = models.CharField(max_length=3)
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICE, default='Male') 
+    total_bilirubin = models.CharField(max_length=5)
+    alkaline_phosphotase = models.CharField(max_length=5)
+    alamine_aminotransferase = models.CharField(max_length=5)
+    total_protiens = models.CharField(max_length=4)
+    albumin = models.CharField(max_length=4)
+
+    def __str__(self):
+        return self.user_profile.user.username
+
 
 
 

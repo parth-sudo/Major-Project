@@ -20,6 +20,7 @@ urlpatterns = [
     path('information/diabetes/', views.diabetes_information, name = 'diabetes_info'),
     path('information/liver_disease/', views.liver_disease_information, name='liver_info'),
     path('consult_doctors/', views.consult_doctors, name='consult_doctors'),
+    path('liver_prediction/', views.liver_prediction, name='liver_prediction'),
 ]   
 
 if settings.DEBUG:
