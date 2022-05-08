@@ -3,58 +3,120 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'backend/home.css' %}">
+<link rel="stylesheet" type="text/css" href = "{% static 'backend/home.css' %}">
+  <style>
+    body{
+      box-sizing: border-box;
+      background-color: #e3e1e95c;
+      height: 100vh;
+      width: 100vw;
+      margin: 0 !important;
+    }
 
-    <body style="background-color: #11072E;">
+    .sidebar {
+      margin: 0;
+      padding: 0;
+      width: 220px;
+      background-color: #9ba2cfb0;
+      position: fixed;
+      height: 100%;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+    }
 
-      <h2 style="text-align:center; margin:10px; color:white"> Maladie Prediction</h2>
-      
-      <h4 style="text-align:center; color:white"> Hi, How are you feeling today? </h4>
-  
-  <a href="{% url 'prediction' %}" style="text-decoration: none">  
-    <div class="cardRow"> 
-      <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="..." alt="Card image cap">
-        <div class="card-body">
-          <p class="card-text">Disease Prediction</p>
-        </div>
-      </div>
-    </a>
+    /* Sidebar links */
+    .sidebar a {
+      color: black;
+      text-align: center;
+      padding: 16px;
+      text-decoration: none;
+      font-family: 'Arvo', serif;
+    }
 
-      <br></br>
+    /* Active/current link */
+    .sidebar a.active {
+      /* background-color: #04AA6D; */
+      /* color: white; */
+    }
 
-      <a href="{% url 'disease_information' %}" style="text-decoration: none">  
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="..." alt="Card image cap">
-          <div class="card-body">
-            <p class="card-text">Get Disease Information</p>
-          </div>
-        </div>
-      </div>
-    </a>
+    /* Links on mouse-over */
+    .sidebar a:hover:not(.active) {
+      background-color: #555;
+      color: white;
+    }
 
-    <div class="cardRow"> 
-      <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="..." alt="Card image cap">
-        <div class="card-body">
-          <p class="card-text">Consult Doctors.</p>
-        </div>
+    
+    div.content {
+      margin-left: 220px;
+      padding: 1px 16px;
+      height: 100vh;
+    }
+    
+    .content h2{
+      padding-top: 30px;
+      width: 100%;
+      text-align: center;
+      font-family: 'Arvo', serif;
+      font-size: 220%;
+      width: 50%;
+      margin-left: 20%;
+      margin-right: 25%;
+    }
 
-      </div>
+    .content button{
+      position: fixed;
+      top: 15px;
+      right: 25px;
+      width: 90px;
+      height: 30px;
+      border-radius: 10px;
+      background-color: #9ba2cf42;
+    }
 
-      <br></br>
+    /* On screens that are less than 700px wide, make the sidebar into a topbar */
+    @media screen and (max-width: 700px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+      .sidebar a {float: left;}
+      div.content {margin-left: 0;}
+    }
 
-      <a href="{% url 'analyze' %}" style="text-decoration: none">  
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="..." alt="Card image cap">
-          <div class="card-body">
-            <p class="card-text">Analyze</p>
-          </div>
-        </div>
-      </div>
-    </a>
+    /* On screens that are less than 400px, display the bar vertically, instead of horizontally */
+    @media screen and (max-width: 400px) {
+      .sidebar a {
+        text-align: center;
+        float: none;
+      }   
+    }
+  </style>
+
+  <body>
+    <!-- The sidebar -->
+    <div class="sidebar">
+      <a href="{% url 'disease_information' %}"> Disease &nbsp Information </a>
+      <a href="{% url 'prediction' %}"> Disease &nbsp Prediction </a>
+      <a href="#contact"> Consult &nbsp Doctors </a>
+      <a href="{% url 'analyze' %}"> Analyze &nbsp Parameters </a>
+    </div>
+
+    <!-- Page content -->
+    <div class="content"> 
+      <h2> MALADIE &nbsp PREDICTION </h2>
+      <button> 
+        {% if user.is_authenticated %}
+          <a style = 'text-decoration: none; color: black;' href="{% url 'logout' %}"> Logout </a>  
+        {% else %}
+          <a style = 'text-decoration: none; color: black;' href="{% url 'login' %}"> Login </a>  
+        {% endif %} 
+      </button>
 
     </div>
+<<<<<<< HEAD
   
     <div style="text-align:center">
       {% if user.is_authenticated %}
@@ -64,6 +126,8 @@
    <a href="{% url 'login' %}"> <button type="button" class="btn btn-light">Login</button> </a>  
    {% endif %} 
   </div>
+=======
+>>>>>>> origin/harshit-ahuja
    
   </body>
 
