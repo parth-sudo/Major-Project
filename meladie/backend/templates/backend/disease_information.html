@@ -14,21 +14,27 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
               <ul class="navbar-nav">
                 <li class="nav-item active">
-                  <a class="nav-link" href="#">Disease 1 <span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="{% url 'heart_disease_info' %}">Disease 1 <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Disease 2</a>
+                  <a class="nav-link" href="{% url 'diabetes_info' %}">Disease 2</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Disease 3</a>
+                  <a class="nav-link" href="{% url 'liver_info' %}">Disease 3</a>
                 </li>
               </ul>
             </div>
           </nav>
         
         <div style="text-align: center;">
-           <h2 style=""> Disease 1 </h2>
-           <p> Lorem ipsum dolor sit amet, consectet </p>
+           <h2 style=""> {{heart.name}}</h2>
+          
+           <p> {{heart.information}} </p>
+           <p> {{heart.symptoms}} </p>
+           <p> {{heart.causes}}</p>
+           <p> {{heart.vulnerable}} </p>
+           <p> {{heart.food_to_eat}} </p>
+
        </div>
 
     </div>

@@ -1,6 +1,6 @@
 {% extends "backend/base.html"%}
-{% load crispy_forms_tags %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block content %}
 
 <link rel="stylesheet" type="text/css" href = "{% static 'backend/home.css' %}">
@@ -98,9 +98,9 @@
   <body>
     <!-- The sidebar -->
     <div class="sidebar">
-      <a href="{% url 'disease_information' %}"> Disease &nbsp Information </a>
+      <a href="{% url 'heart_disease_info' %}"> Disease &nbsp Information </a>
       <a href="{% url 'prediction' %}"> Disease &nbsp Prediction </a>
-      <a href="#contact"> Consult &nbsp Doctors </a>
+      <a href="{% url 'consult_doctors' %}"> Consult &nbsp Doctors </a>
       <a href="{% url 'analyze' %}"> Analyze &nbsp Parameters </a>
     </div>
 

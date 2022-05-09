@@ -1,10 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
+import datetime, pytz
+from django.utils import timezone
 
 # Create your models here.
 class Disease(models.Model):
     name = models.CharField(max_length=50, unique=True)
     information = models.TextField()
+    symptoms = models.TextField(default="abc")
+    causes = models.TextField(default="abc")
+    vulnerable = models.TextField(default="abc")
     food_to_eat = models.TextField() 
 
     def __str__(self):
@@ -43,8 +48,9 @@ CHEST_PAIN_CHOICE = (
 )
 
 class HeartPatient(models.Model):
+    #default.
     user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    age = models.CharField(max_length=3, blank = False, default=50)
+    age = models.CharField(max_length=3, blank = False)
     sex = models.CharField(max_length=6, choices=GENDER_CHOICE, default='Male')  
     chest_pain_type = models.CharField(max_length=20, choices = CHEST_PAIN_CHOICE, default='Typical Angina')
     resting_blood_pressure = models.CharField(max_length=3, blank = False)
@@ -52,7 +58,7 @@ class HeartPatient(models.Model):
     fasting_blood_sugar = models.CharField(max_length=10, choices=[('True', 'True'), ('False', 'False')])
     maximum_heart_rate_achieved = models.CharField(max_length=4)
     exercise_induced_angina = models.CharField(max_length=10, choices=[('True', 'True'), ('False', 'False')])
-
+    date = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return self.user_profile.user.username
@@ -61,14 +67,28 @@ class HeartPatient(models.Model):
 class DiabetesPatient(models.Model):
     user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     glucose = models.CharField(max_length = 3, blank=False)
-    blood_pressuse = models.CharField(max_length = 3, blank=False)
+    blood_pressure = models.CharField(max_length = 3, blank=False)
     insulin = models.CharField(max_length = 3, blank=False)
     body_mass_index = models.CharField(max_length=4, blank=False)
     age = models.CharField(max_length=3, blank=False)
+    date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.user_profile.username
+        return self.user_profile.user.username
 
+
+class LiverPatient(models.Model):
+    user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    age = models.CharField(max_length=3)
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICE, default='Male') 
+    total_bilirubin = models.CharField(max_length=5)
+    alkaline_phosphotase = models.CharField(max_length=5)
+    alamine_aminotransferase = models.CharField(max_length=5)
+    total_protiens = models.CharField(max_length=4)
+    albumin = models.CharField(max_length=4)
+
+    def __str__(self):
+        return self.user_profile.user.username
 
 
 

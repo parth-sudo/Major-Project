@@ -14,39 +14,26 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
               <ul class="navbar-nav">
                 <li class="nav-item active">
-                  <a class="nav-link" href="{% url 'prediction' %}">Heart Disease Prediction <span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="{% url 'heart_disease_info' %}">Disease 1 <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'diabetes_prediction' %}">Diabetes Prediction</a>
+                  <a class="nav-link" href="{% url 'diabetes_info' %}">Disease 2</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'liver_prediction' %}">Liver Disease Prediction</a>
+                  <a class="nav-link" href="{% url 'liver_info' %}">Disease 3</a>
                 </li>
               </ul>
             </div>
           </nav>
-
-          <div>
-            <h2> Hi {{user_profile.user.username}}. </h2>
-          </div>
         
-        <div>
-            <form method = "POST">
-                {% csrf_token %}
-            
-                {{form.as_p}}
-              
-    <a href="{% url 'prediction' %}"><button class="submit btn btn-primary btn-lg"> Check </button>  </a>
-    <a href="{% url 'home' %}" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true"> Back to Home</a>
-            </form>
-
-            <div>
-
-              {{answer}}
-           
-          </div>
-
-      </div>
+        <div style="text-align: center;">
+           <h2 style=""> {{liver.name}}</h2>
+           <p> {{liver.information}} </p>
+           <p> {{liver.symptoms}} </p>
+           <p> {{liver.causes}}</p>
+           <p> {{liver.vulnerable}} </p>
+           <p> {{liver.food_to_eat}} </p>
+       </div>
 
     </div>
 </body>
