@@ -48,7 +48,6 @@ CHEST_PAIN_CHOICE = (
 )
 
 class HeartPatient(models.Model):
-    #default.
     user_profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     age = models.CharField(max_length=3, blank = False)
     sex = models.CharField(max_length=6, choices=GENDER_CHOICE, default='Male')  

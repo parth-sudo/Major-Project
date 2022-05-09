@@ -3,8 +3,9 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, HeartPatientForm, DiabetesPatientForm, LiverPatientForm
 from django.contrib.auth.models import User
-from .models import Profile, HeartPatient, DiabetesPatient, Disease
+from .models import Profile, HeartPatient, DiabetesPatient, Disease, LiverPatient
 from .predictions import heart_disease, diabetes, liver_disease
+
 
 def home(request):
     return render(request, 'backend/home.html', {})
@@ -21,9 +22,6 @@ def register(request):
         form = UserRegisterForm()
     return render(request,'backend/register.html', {'form':form})
 
-def analyze(request):
-    #todo
-    return render(request,'backend/analyze.html', {})
 
 @login_required
 def heart_disease_prediction(request):
@@ -44,9 +42,9 @@ def heart_disease_prediction(request):
             exercise_induced_angina = form.cleaned_data.get('exercise_induced_angina')
 
             result = heart_disease(age, sex, chest_pain_type, resting_blood_pressure, cholesterol, fasting_blood_sugar, maximum_heart_rate_achieved, exercise_induced_angina)
-            # result = 1
-            print("printing result")
-            print(result)
+            isHeartPatient = request.sessions.get('isHeartPatient', False)
+            request.session['isHeartPatient'] = True if result == 1 else False
+
             answer = "Yes, you have a heart disease sadly." if result == 1 else "No, you don't have heart disease."
             context['answer'] = answer
             return render(request, 'backend/disease_prediction.html', context)
@@ -54,6 +52,7 @@ def heart_disease_prediction(request):
         form = HeartPatientForm()
     return render(request,'backend/disease_prediction.html', {'form' : form, 'answer' : "", 'user_profile' : instance})
 
+@login_required
 def diabetes_prediction(request):
     context = {}
     instance = Profile.objects.filter(user = request.user).first()
@@ -70,8 +69,7 @@ def diabetes_prediction(request):
 
             result = diabetes(glucose, blood_pressuse, insulin, body_mass_index, age)
             # result = 1
-            print("printing result")
-            print(result)
+            request.session['isDiabetesPatient'] = True if result == 1 else False
             answer = "Yes, you have a diabetes sadly." if result == 1 else "No, you don't have diabetes."
             context['answer'] = answer
             return render(request, 'backend/disease_prediction.html', context)
@@ -79,7 +77,7 @@ def diabetes_prediction(request):
         form = DiabetesPatientForm()
     return render(request,'backend/disease_prediction.html', {'form' : form, 'user_profile' : instance, 'answer' : ""})
 
-
+@login_required
 def liver_prediction(request):
     context = {}
     instance = Profile.objects.filter(user = request.user).first()
@@ -98,9 +96,8 @@ def liver_prediction(request):
             albumin=form.cleaned_data.get('albumin')
 
             result = liver_disease(age, gender, total_bilirubin, alkaline_phosphotase, alamine_aminotransferase, total_protiens, albumin)
-            # result = 1
-            print("printing result")
-            print(result)
+            request.session['isLiverPatient'] = True if result == 1 else False
+
             answer = "Yes, you have a liver disease sadly." if result == 1 else "No, you don't liver disease."
             context['answer'] = answer
             return render(request, 'backend/disease_prediction.html', context)
@@ -130,13 +127,9 @@ def liver_disease_information(request):
 def profile(request):
     context = {}
     current_user = request.user
-    # print(current_user)
-    # user = get_object_or_404(User, pk=pk)
-    # print(user)
-    # print(current_user.id)
+  
     profile = Profile.objects.filter(user = current_user)
 
-    # print(user_profile.tests_taken)
     if not profile.exists():
         user_profile = Profile.objects.create(user=current_user, tests_taken=0)
         context['user_profile'] = user_profile 
@@ -161,10 +154,39 @@ def profile(request):
     
     return render(request, 'backend/profile.html', context)
 
-
+@login_required
 def consult_doctors(request):
-    #todo.
-    return render(request, 'backend/consult_doctors.html', {})
+  
+    current_user = request.user
+
+    def testDone(arr):
+        for obj in arr:
+            if obj.user_profile.user == current_user:
+                return True
+        return False
+  
+    heartTestDone = testDone(HeartPatient.objects.all())
+    diabetesTestDone = testDone(DiabetesPatient.objects.all())
+    liverTestDone = testDone(LiverPatient.objects.all())
+
+    isHeartPatient = request.session.get('isHeartPatient', False)
+    isDiabetesPatient = request.session.get('isDiabetesPatient', False)
+    isLiverPatient = request.session.get('isLiverPatient', False)
+
+    context = {
+        'heartTestDone' : heartTestDone,
+        'diabetesTestDone' : diabetesTestDone,
+        'liverTestDone' : liverTestDone,
+        'isHeartPatient' : isHeartPatient,
+        'isDiabetesPatient' : isDiabetesPatient,
+        'isLiverPatient' : isLiverPatient,
+    }
+
+    return render(request, 'backend/consult_doctors.html', context)
+
+def analyze(request):
+    #todo
+    return render(request,'backend/analyze.html', {})
 
 def about(request):
     return render(request,'backend/about.html',{'title':'About'})
