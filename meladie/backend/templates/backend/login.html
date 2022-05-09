@@ -21,6 +21,7 @@
 
   .heading{
     text-align: center;
+    font-family: 'Arvo', serif;
   }
   
   .button{
@@ -38,17 +39,15 @@
             <form method="POST">
                 {% csrf_token %}
                 <fieldset class="form-group">
-                    <legend class="border-bottom mb-4 heading"> Log in </legend>
+                    <legend class="border-bottom mb-4 heading"> Log In </legend>
                     {{ form|crispy }}
                 </fieldset>
                 <div class="form-group">
-                    <button class="btn btn-dark button" type="submit">Log in</button>
+                    <button class="btn btn-dark button" type="submit">Log In</button>
                 </div>
             </form>
             <div class="border-top pt-3 sign-up">
-                <small class="text-muted">
-                    Don't have an account? <a class="ml-2" href="{% url 'register' %}">Sign up</a>
-                </small>
+                  Don't have an account? <a class="ml-2" href="{% url 'register' %}" style="text-decoration: none; color: blue;"> Sign Up </a>    
             </div>
         </div>
       </div>
