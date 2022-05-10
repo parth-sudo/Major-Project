@@ -1,11 +1,35 @@
 {% extends "backend/base.html" %}
 {% block content %}
 
-     <h2>You have been logged out.</h2>
-      <div class="border-top pt-3">
+
+    <style>
+        h2{
+            text-align: center;
+            margin-top: 30px;
+            color:red;
+        }
+
+        button{
+            background-color: #9ba2cf42;
+            width: 150px;
+            height: 40px;
+            border-radius: 15px;
+            margin-left: calc((100vw - 150px) / 2);
+            margin-top: 20px;
+        }
+        
+    </style>
+
+     <h2>You have been logged out successfully.</h2>
+     <button>
+        <a style='text-decoration : none; color : black' href = "{% url 'home' %}" >
+            Go Back To Home
+        </a>   
+    </button>
+      <!-- <div class="border-top pt-3">
           <small class="text-muted">
-             <a class="ml-2" href="{% url 'login' %}">Login again</a>
+            <a class="ml-2" href="{% url 'login' %}">Login again</a>
           </small>
-      </div>
+      </div> -->
 
 {% endblock %}

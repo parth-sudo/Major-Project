@@ -3,52 +3,126 @@
 {% load static %}
 {% block content %}
 
+<style>
+  .color-blue{
+    background-color: #9ba2cf6b !important;
+  }
+
+  .user-name-display{
+    margin-top: 3vh;
+    text-align: center;
+    font-family: 'Capriola', sans-serif;
+  }
+
+  .form-container{
+    margin: auto;
+    width: 50vw;
+    height: 80vh;
+    margin-top: 2.5vh;
+    padding: 4vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 12px 1px black;
+  }
+
+  .submit-btn{
+    width: 50%;
+    margin-left: 25%;
+  }
+
+  .result{
+    width: 70%;
+    margin-left: 15%;
+    color: blue;
+    font-family: 'Mukta', sans-serif;
+    margin-top: 10px;
+  }
+
+  @media (max-width: 770px) {
+    .user-name-display{
+      margin-top: 3vh;
+    }
+    .form-container{
+      height: 82vh;
+      margin-top: 3vh;
+      width: 85vw;
+      padding: 4vw;
+    }
+    .submit-btn{
+      width: 60%;
+      margin-left: 20%;
+    }
+  }
+
+  .nav-disaese-name:hover{
+    transform: scale(1.05);
+  }
+
+  .submit-btn:hover{
+    transform: scale(1.05);
+  }
+
+</style>
+
 <body>
-    <div class="main">
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light color-blue">
+    <a class="navbar-brand" href="{% url 'home' %}" style="font-family: 'Arvo', serif; font-size: 150%;"> MALADIE &nbsp PREDICTION</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link nav-disaese-name" href="{% url 'prediction' %}" style="opacity: 0.9; color: black; margin-left: 15px">Heart Disease <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-disaese-name" href="{% url 'diabetes_prediction' %}" style="opacity: 0.9; color: black; margin-left: 15px">Diabetes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-disaese-name" href="{% url 'liver_prediction' %}" style="opacity: 0.9; color: black; margin-left: 15px">Liver Disease</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="{% url 'home' %}">Maladie Prediction</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-              <ul class="navbar-nav">
-                <li class="nav-item active">
-                  <a class="nav-link" href="{% url 'prediction' %}">Heart Disease Prediction <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'diabetes_prediction' %}">Diabetes Prediction</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'liver_prediction' %}">Liver Disease Prediction</a>
-                </li>
-              </ul>
-            </div>
-          </nav>
-
-          <div>
-            <h2> Hi {{user_profile.user.username}}. </h2>
+          
+          <div class = "user-name-display">
+            <h5> Hi &nbsp {{user.username}}!! </h5>
           </div>
         
-        <div>
+          <div class="form-container">
+
             <form method = "POST">
                 {% csrf_token %}
             
                 {{form.as_p}}
-              
-    <a href="{% url 'prediction' %}"><button class="submit btn btn-primary btn-lg"> Check </button>  </a>
-    <a href="{% url 'home' %}" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true"> Back to Home</a>
-            </form>
+                
+                  {% comment %} <a href="{% url 'prediction' %}" style="text-decoration: none; color:blue">
+                    <button type="submit" class="submit submit-btn"> 
+                      Predict Disease
+                    </button>
+                  </a> {% endcomment %}
 
-            <div>
+                  <div class="form-group">
+                    <button class="btn btn-dark" type="submit">Predict</button>
+                 </div>
 
-              {{answer}}
-           
-          </div>
+                  <div class="result">
+                    {{answer}}
+                  </div>
+                  
+              </form>
 
-      </div>
+              <div>
 
-    </div>
+                {% if answer %}
+                  <a href="{% url 'consult_doctors' %}"> <button class="btn btn-primary"> Consult Doctors?  </button> </a>
+                {% endif %}
+
+              </div>
+            </div>
 </body>
 
 {% endblock %}

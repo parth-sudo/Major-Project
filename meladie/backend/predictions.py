@@ -44,14 +44,14 @@ def heart_disease(age, sex, chest_pain_type, resting_blood_pressure, cholesterol
     return(prediction[0])
 
 
-def diabetes(glucose, blood_pressuse, insulin, body_mass_index, age):
+def diabetes(glucose, blood_pressure, insulin, body_mass_index, age):
     glucose = int(glucose)
-    blood_pressuse = int(blood_pressuse)
+    blood_pressure = int(blood_pressure)
     insulin = int(insulin)
     body_mass_index = float(body_mass_index)
     age = int(age)
 
-    parameters = (glucose, blood_pressuse, insulin, body_mass_index, age)
+    parameters = (glucose, blood_pressure, insulin, body_mass_index, age)
 
     diabetes_data = pd.read_csv("C:/Users/Admin/Downloads/diabetes_data.csv")
 
@@ -73,7 +73,7 @@ def diabetes(glucose, blood_pressuse, insulin, body_mass_index, age):
     prediction = model.predict(input_data_reshaped)
     prediction = prediction.tolist()
     
-    return(prediction[0])
+    return (prediction[0])
 
 def liver_disease(age, gender, total_bilirubin, alkaline_phosphotase, alamine_aminotransferase, total_protiens, albumin) :
     
@@ -87,7 +87,7 @@ def liver_disease(age, gender, total_bilirubin, alkaline_phosphotase, alamine_am
 
     parameters = (age, gender, total_bilirubin, alkaline_phosphotase, alamine_aminotransferase, total_protiens, albumin)
     
-    liver_data = pd.read_csv("C:/Users/Admin/Downloads/LiverDiseaseDataset.csv")
+    liver_data = pd.read_csv('C:/Users/Admin/Downloads/LiverDiseaseDataset.csv')
 
     # Separating the data and labels
     X = liver_data.drop(columns = 'target', axis = 1)

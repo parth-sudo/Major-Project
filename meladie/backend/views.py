@@ -26,12 +26,15 @@ def register(request):
 @login_required
 def heart_disease_prediction(request):
     context = {}
-    instance = Profile.objects.filter(user = request.user).first()
     if request.method == 'POST':
-        form = HeartPatientForm(request.POST, instance = instance)
+        form = HeartPatientForm(request.POST)
         if form.is_valid():
-            form.save()
+            profile = form.save(commit=False)
+            profile.user = request.user
+            profile.save()
+   
             context['form'] = form
+
             age=form.cleaned_data.get('age')
             sex=form.cleaned_data.get('sex')
             chest_pain_type=form.cleaned_data.get('chest_pain_type')
@@ -42,51 +45,56 @@ def heart_disease_prediction(request):
             exercise_induced_angina = form.cleaned_data.get('exercise_induced_angina')
 
             result = heart_disease(age, sex, chest_pain_type, resting_blood_pressure, cholesterol, fasting_blood_sugar, maximum_heart_rate_achieved, exercise_induced_angina)
-            isHeartPatient = request.sessions.get('isHeartPatient', False)
+        
             request.session['isHeartPatient'] = True if result == 1 else False
 
-            answer = "Yes, you have a heart disease sadly." if result == 1 else "No, you don't have heart disease."
+            answer = "Heart Disease detected." if result == 1 else "No, you don't have heart disease."
             context['answer'] = answer
             return render(request, 'backend/disease_prediction.html', context)
     else:
         form = HeartPatientForm()
-    return render(request,'backend/disease_prediction.html', {'form' : form, 'answer' : "", 'user_profile' : instance})
+    return render(request,'backend/disease_prediction.html', {'form' : form, 'answer' : ""})
 
 @login_required
 def diabetes_prediction(request):
     context = {}
-    instance = Profile.objects.filter(user = request.user).first()
     if request.method == 'POST':
-        form = DiabetesPatientForm(request.POST or None, instance=instance)
+        form = DiabetesPatientForm(request.POST)
         if form.is_valid():
-            form.save()
+            profile = form.save(commit=False)
+            profile.user = request.user
+            profile.save()
+            print(form)
+
             context['form'] = form
             glucose=form.cleaned_data.get('glucose')
-            blood_pressuse=form.cleaned_data.get('blood_pressuse')
+            blood_pressure=form.cleaned_data.get('blood_pressure')
             insulin=form.cleaned_data.get('insulin')
             body_mass_index=form.cleaned_data.get('body_mass_index')
             age=form.cleaned_data.get('age')
 
-            result = diabetes(glucose, blood_pressuse, insulin, body_mass_index, age)
-            # result = 1
+            result = diabetes(glucose, blood_pressure, insulin, body_mass_index, age)
+       
             request.session['isDiabetesPatient'] = True if result == 1 else False
-            answer = "Yes, you have a diabetes sadly." if result == 1 else "No, you don't have diabetes."
+            answer = "You have diabetes." if result == 1 else "No, you don't have diabetes."
             context['answer'] = answer
             return render(request, 'backend/disease_prediction.html', context)
     else:
         form = DiabetesPatientForm()
-    return render(request,'backend/disease_prediction.html', {'form' : form, 'user_profile' : instance, 'answer' : ""})
+    return render(request,'backend/disease_prediction.html', {'form' : form, 'answer' : ""})
 
 @login_required
 def liver_prediction(request):
     context = {}
-    instance = Profile.objects.filter(user = request.user).first()
     if request.method == 'POST':
-        form = LiverPatientForm(request.POST or None, instance = instance)
+        form = LiverPatientForm(request.POST)
         if form.is_valid():
-            form.save()
-            context['form'] = form
+            profile = form.save(commit=False)
+            profile.user = request.user
+            profile.save()
 
+            context['form'] = form
+          
             age=form.cleaned_data.get('age')
             gender=form.cleaned_data.get('gender')
             total_bilirubin = form.cleaned_data.get('total_bilirubin')
@@ -105,28 +113,28 @@ def liver_prediction(request):
         form = LiverPatientForm()
     return render(request,'backend/disease_prediction.html', {'form' : form, 'answer' : "",'user_profile' : instance})
 
-def heart_disease_information(request):
-    #todo
-    heart = Disease.objects.get(pk = 1)
+def disease_information(request, disease_name):
     context = {}
-    context['heart'] = heart
-    return render(request, 'backend/disease_information.html', context)
+    if disease_name == "heart_disease":
+        heart = Disease.objects.filter(name="Heart Disease")[0]
+        context['disease_name'] = 'Heart Disease'
+        context['object'] = heart
+    elif disease_name == "diabetes":
+        diabetes = Disease.objects.get(pk = 2)
+        context['disease_name'] = 'Diabetes'
+        context['object'] = diabetes
+    elif disease_name == "liver_disease":
+        liver = Disease.objects.get(pk = 3)
+        context['disease_name'] = 'Liver Disease'
+        context['object'] = liver
 
-def diabetes_information(request):
-    diabetes = Disease.objects.get(pk = 2)
-    context = {}
-    context['diabetes'] = diabetes
-    return render(request, 'backend/diabetes.html', context)
+    return render(request, 'backend/disease_information.html', context) 
 
-def liver_disease_information(request):
-    liver = Disease.objects.get(pk = 3)
-    context = {}
-    context['liver'] = liver
-    return render(request, 'backend/liver.html', context)
 
 def profile(request):
     context = {}
     current_user = request.user
+    print(current_user.email)
   
     profile = Profile.objects.filter(user = current_user)
 
@@ -161,7 +169,7 @@ def consult_doctors(request):
 
     def testDone(arr):
         for obj in arr:
-            if obj.user_profile.user == current_user:
+            if obj.user == current_user:
                 return True
         return False
   
@@ -184,9 +192,86 @@ def consult_doctors(request):
 
     return render(request, 'backend/consult_doctors.html', context)
 
-def analyze(request):
-    #todo
-    return render(request,'backend/analyze.html', {})
+
+def analyze1(request, parameter):
+
+    current_user = request.user
+  
+    heart_array = HeartPatient.objects.all().filter(user=current_user)
+    diabetes_array = DiabetesPatient.objects.all().filter(user=current_user)
+    liver_array = LiverPatient.objects.all().filter(user=current_user)
+
+    def foo(arr, x):
+        x_arr = []
+        date_array = []
+        for record in arr:     
+            if x == "cholesterol":
+                x_arr.append(record.cholesterol)
+            elif x == "maximum_heart_rate_achieved":
+                x_arr.append(record.maximum_heart_rate_achieved)
+            elif x == "glucose":
+                x_arr.append(record.glucose)
+            elif x == "insulin":
+                x_arr.append(record.insulin)
+            elif x == "bilirubin":
+                x_arr.append(record.total_bilirubin)
+            elif x == "total_protiens":
+                x_arr.append(record.total_protiens)
+
+            date_array.append(record.date.date())
+
+        return [x_arr, date_array]
+
+    context = {}
+    test_taken = False
+    if parameter == "cholesterol":
+        temp = foo(heart_array, 'cholesterol')
+        context['value_array'] = temp[0]
+        context['date_array'] = temp[1]
+        list = zip(temp[0], temp[1])
+        context['list'] = list
+        context['value'] = 'cholesterol'
+        test_taken = True
+    elif parameter == "maxHeartRateAchieved":
+        temp = foo(heart_array, 'maximum_heart_rate_achieved')
+        context['value_array'] = temp[0]
+        context['date_array'] = temp[1]
+        context['list'] = zip(temp[0], temp[1])
+        context['value'] = 'maximum_heart_rate_achieved'
+        test_taken = True
+    elif parameter == "glucose":
+        temp = foo(diabetes_array, 'glucose')
+        context['value_array'] = temp[0]
+        context['date_array'] = temp[1]
+        context['list'] = zip(temp[0], temp[1]) 
+        context['value'] = 'glucose'
+        test_taken = True
+    elif parameter == "insulin":
+        temp = foo(diabetes_array, 'insulin')
+        context['value_array'] = temp[0]
+        context['date_array'] = temp[1]
+        context['list'] = zip(temp[0], temp[1])
+        context['value'] = 'insulin'
+        test_taken = True
+    elif parameter == "bilirubin":
+        temp = foo(liver_array, 'bilirubin')
+        context['value_array'] = temp[0]
+        context['date_array'] = temp[1]
+        context['list'] = zip(temp[0], temp[1])
+        context['value'] = 'bilirubin'
+        test_taken = True
+    elif parameter == "total_protiens":
+        temp = foo(liver_array, 'total_protiens')
+        context['value_array'] = temp[0]
+        context['date_array'] = temp[1]
+        context['list'] = zip(temp[0], temp[1])
+        context['value'] = 'total_protiens'
+        test_taken = True
+
+    context['test_taken'] = test_taken
+    print(test_taken)
+    return render(request,'backend/analyze.html', context)
+
 
 def about(request):
     return render(request,'backend/about.html',{'title':'About'})
