@@ -2,16 +2,110 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
+<style>
+    body{
+        margin : 0;
+        box-sizing: border-box;
+        background-color: #e3e1e95c;
+    }
+
+    h2{
+        padding: 10px;
+        margin-top: 5vh;
+        text-align: center;
+        font-family: 'Arvo', serif;
+    }
+
+    h2 span{
+        float: right;
+        margin-right: 20px;
+    } 
+
+    h2 span img{
+        width: 30px;
+        height: 30px;
+    }
+
+    h2 span img:hover{
+        transform: scale(1.2);
+    }
+
+    .my-info{
+        width: 50vw;
+        height: 75vh;
+        margin: auto;
+        margin-top: 3vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .item{
+        width: 70%;
+        height: 10%;
+        background-color: #9ba2cf7d;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 5px solid #7979ad;
+        border-radius: 20px;
+    }
+
+    .item:hover{
+        transform: scale(1.05);
+    }
+
+    @media screen and (max-width: 700px) {
+      .my-info{
+        width: 92vw;
+      }
+
+      .item{
+          width: 90%;
+      }
+    }
+
+
+
+
+
+</style>
+
 <body>
 
     {% if user.is_authenticated %}
 
-    <h2> Hi, {{ user.username }} </h2>
-    <p> Tests taken - {{user_profile.tests_taken}}</p>
+    <h2> MY &nbsp PROFILE 
+        <span>
+            <a href="{% url 'home' %}">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Home_Icon.svg/2048px-Home_Icon.svg.png" class="home-img">
+            </a>
+        </span>
+    </h2>
+    <div class="my-info">
+        <!-- <p> Tests taken - {{user_profile.tests_taken}}</p> -->
+        <!-- <a href="{% url 'home' %}" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true"> Back to Home</a> -->
+        
+        <div class="item">
+            <span><b>User Name : &nbsp</b></span>{{ user.username }}
+        </div>
+        <div class="item">
+            <span><b>Email ID : &nbsp</b></span>{{ user.email }}
+        </div>
+        <div class="item">
+            <span><b>Test Taken : &nbsp</b></span>{{user_profile.tests_taken}}
+        </div>
+        <div class="item">
+            <span><b>Disease Detected : &nbsp</b></span>Dummy Data
+        </div>
+
+    
+    
+    </div>
 
     {% endif %}
 
-    <a href="{% url 'home' %}" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true"> Back to Home</a>
 
 </body>
 
