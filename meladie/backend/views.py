@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, HeartPatientForm, DiabetesPatientForm, LiverPatientForm
 from django.contrib.auth.models import User
-from .models import Profile, HeartPatient, DiabetesPatient, Disease, LiverPatient
+from .models import Doctor, Profile, HeartPatient, DiabetesPatient, Disease, LiverPatient
 from .predictions import heart_disease, diabetes, liver_disease
 
 
@@ -111,7 +111,7 @@ def liver_prediction(request):
             return render(request, 'backend/disease_prediction.html', context)
     else:
         form = LiverPatientForm()
-    return render(request,'backend/disease_prediction.html', {'form' : form, 'answer' : "",'user_profile' : instance})
+    return render(request,'backend/disease_prediction.html', {'form' : form, 'answer' : ""})
 
 def disease_information(request, disease_name):
     context = {}
@@ -181,6 +181,10 @@ def consult_doctors(request):
     isDiabetesPatient = request.session.get('isDiabetesPatient', False)
     isLiverPatient = request.session.get('isLiverPatient', False)
 
+    heart_doctors = Doctor.objects.all().filter(specialization=1)
+    diabetes_doctors = Doctor.objects.all().filter(specialization=2)
+    liver_doctors = Doctor.objects.all().filter(specialization=3)
+
     context = {
         'heartTestDone' : heartTestDone,
         'diabetesTestDone' : diabetesTestDone,
@@ -188,11 +192,14 @@ def consult_doctors(request):
         'isHeartPatient' : isHeartPatient,
         'isDiabetesPatient' : isDiabetesPatient,
         'isLiverPatient' : isLiverPatient,
+        'heart_doctors' : heart_doctors,
+        'diabetes_doctors' : diabetes_doctors,
+        'liver_doctors' : liver_doctors,
     }
 
     return render(request, 'backend/consult_doctors.html', context)
 
-
+@login_required
 def analyze1(request, parameter):
 
     current_user = request.user

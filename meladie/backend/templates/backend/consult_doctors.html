@@ -125,38 +125,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td data-label="Doctor Name">Dr.Batra</td>
-          <td data-label="Address">145/B Sector 15, Faridabad</td>
-          <td data-label="Contact Number">9898765882</td>
-          <td data-label="Years of Experience">11</td>
-          <td data-label="Gender">Male</td>
-          <td data-label="Rating">9.3/10</td>
-        </tr>
-        <tr>
-            <td data-label="Doctor Name">Dr.Batra</td>
-            <td data-label="Address">145/B Sector 15, Faridabad</td>
-            <td data-label="Contact Number">9898765882</td>
-            <td data-label="Years of Experience">11</td>
-            <td data-label="Gender">Male</td>
-            <td data-label="Rating">9.3/10</td>
+        {% for doctor in heart_doctors %}
+           <tr>
+            <td data-label="Doctor Name">{{doctor.full_name}}</td>
+            <td data-label="Address">{{doctor.address}}</td>
+            <td data-label="Contact Number">{{doctor.contact}}</td>
+            <td data-label="Years of Experience">{{doctor.yoe}}</td>
+            <td data-label="Gender">{{doctor.gender}}</td>
+            <td data-label="Rating">{{doctor.rating}}</td>
           </tr>
-          <tr>
-            <td data-label="Doctor Name">Dr.Batra</td>
-            <td data-label="Address">145/B Sector 15, Faridabad</td>
-            <td data-label="Contact Number">9898765882</td>
-            <td data-label="Years of Experience">11</td>
-            <td data-label="Gender">Male</td>
-            <td data-label="Rating">9.3/10</td>
-          </tr>
-          <tr>
-            <td data-label="Doctor Name">Dr.Batra</td>
-            <td data-label="Address">145/B Sector 15, Faridabad</td>
-            <td data-label="Contact Number">9898765882</td>
-            <td data-label="Years of Experience">11</td>
-            <td data-label="Gender">Male</td>
-            <td data-label="Rating">9.3/10</td>
-          </tr>
+        {% endfor %}
       </tbody>
 
       {% else %}
@@ -194,38 +172,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td data-label="Doctor Name">Dr.Batra</td>
-            <td data-label="Address">145/B Sector 15, Faridabad</td>
-            <td data-label="Contact Number">9898765882</td>
-            <td data-label="Years of Experience">11</td>
-            <td data-label="Gender">Male</td>
-            <td data-label="Rating">9.3/10</td>
+            
+          {% for doctor in diabetes_doctors %}
+            <tr>
+            <td data-label="Doctor Name">{{doctor.full_name}}</td>
+            <td data-label="Address">{{doctor.address}}</td>
+            <td data-label="Contact Number">{{doctor.contact}}</td>
+            <td data-label="Years of Experience">{{doctor.yoe}}</td>
+            <td data-label="Gender">{{doctor.gender}}</td>
+            <td data-label="Rating">{{doctor.rating}}</td>
           </tr>
-          <tr>
-              <td data-label="Doctor Name">Dr.Batra</td>
-              <td data-label="Address">145/B Sector 15, Faridabad</td>
-              <td data-label="Contact Number">9898765882</td>
-              <td data-label="Years of Experience">11</td>
-              <td data-label="Gender">Male</td>
-              <td data-label="Rating">9.3/10</td>
-            </tr>
-            <tr>
-              <td data-label="Doctor Name">Dr.Batra</td>
-              <td data-label="Address">145/B Sector 15, Faridabad</td>
-              <td data-label="Contact Number">9898765882</td>
-              <td data-label="Years of Experience">11</td>
-              <td data-label="Gender">Male</td>
-              <td data-label="Rating">9.3/10</td>
-            </tr>
-            <tr>
-              <td data-label="Doctor Name">Dr.Batra</td>
-              <td data-label="Address">145/B Sector 15, Faridabad</td>
-              <td data-label="Contact Number">9898765882</td>
-              <td data-label="Years of Experience">11</td>
-              <td data-label="Gender">Male</td>
-              <td data-label="Rating">9.3/10</td>
-            </tr>
+        {% endfor %}
         </tbody>
 
         {% else %}
@@ -263,38 +220,16 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td data-label="Doctor Name">Dr.Batra</td>
-            <td data-label="Address">145/B Sector 15, Faridabad</td>
-            <td data-label="Contact Number">9898765882</td>
-            <td data-label="Years of Experience">11</td>
-            <td data-label="Gender">Male</td>
-            <td data-label="Rating">9.3/10</td>
-          </tr>
-          <tr>
-              <td data-label="Doctor Name">Dr.Batra</td>
-              <td data-label="Address">145/B Sector 15, Faridabad</td>
-              <td data-label="Contact Number">9898765882</td>
-              <td data-label="Years of Experience">11</td>
-              <td data-label="Gender">Male</td>
-              <td data-label="Rating">9.3/10</td>
-            </tr>
+          {% for doctor in liver_doctors %}
             <tr>
-              <td data-label="Doctor Name">Dr.Batra</td>
-              <td data-label="Address">145/B Sector 15, Faridabad</td>
-              <td data-label="Contact Number">9898765882</td>
-              <td data-label="Years of Experience">11</td>
-              <td data-label="Gender">Male</td>
-              <td data-label="Rating">9.3/10</td>
-            </tr>
-            <tr>
-              <td data-label="Doctor Name">Dr.Batra</td>
-              <td data-label="Address">145/B Sector 15, Faridabad</td>
-              <td data-label="Contact Number">9898765882</td>
-              <td data-label="Years of Experience">11</td>
-              <td data-label="Gender">Male</td>
-              <td data-label="Rating">9.3/10</td>
-            </tr>
+              <td data-label="Doctor Name">{{doctor.full_name}}</td>
+              <td data-label="Address">{{doctor.address}}</td>
+              <td data-label="Contact Number">{{doctor.contact}}</td>
+              <td data-label="Years of Experience">{{doctor.yoe}}</td>
+              <td data-label="Gender">{{doctor.gender}}</td>
+              <td data-label="Rating">{{doctor.rating}}</td>
+           </tr>
+        {% endfor %}
         </tbody>
 
         {% else %}
