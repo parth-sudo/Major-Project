@@ -2,25 +2,40 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-<main role="main" class="container">
+<style>
+    body{
+        margin : 0;
+        box-sizing: border-box;
+        background-image: url('https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg?w=2000');
+    }
+
+    .heading{
+        padding-top: 15px;
+        font-family: 'Arvo', serif;
+    }
+</style>
+
+
+<body>
+    <main role="main" class="container">
   
-  <div class='content-section'>
-      <form method="POST">
-          {% csrf_token %}
-          <fieldset class="form-group">
-              <legend class="border-bottom mb-4"> Join Today &#128516; </legend>
-              {{ form|crispy }}
-          </fieldset>
-          <div class="form-group">
-              <button class="btn btn-dark" type="submit">Sign Up</button>
-          </div>
-      </form>
-      <div class="border-top pt-3">
-          <small class="text-muted">
-              Already have an account? <a class="ml-2" href="{% url 'login' %}">Login</a>
-          </small>
-      </div>
-  </div>
-</main>
+        <div class='content-section'>
+            <form method="POST">
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4 heading"> Join &nbsp Today </legend>
+                    {{ form|crispy }}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-dark" type="submit">Sign Up</button>
+                </div>
+            </form>
+            <div class="border-top pt-3">   
+                Already have an account? <a class="ml-2" href="{% url 'login' %}" style="text-decoration: none; color:blue;"> Login </a>
+            </div>
+        </div>
+      </main>
+</body>
+
 
 {% endblock %}
