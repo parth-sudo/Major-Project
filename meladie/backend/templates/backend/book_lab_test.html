@@ -1,0 +1,160 @@
+{% extends "backend/base.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<style>
+
+    body{
+        margin: 0!important;
+        box-sizing: border-box;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .page-heading-container{
+        width: 100%;
+        height: 14%;
+        /* background-color: red; */
+        padding-top: 15px;
+    }
+
+    .page-heading{
+        width: 85%;
+        height: 70%;
+        text-align: center;
+        font-family: 'Arvo', serif;
+        font-size: 180%;
+        /* background-color: blue; */
+        display: inline-block;
+    }
+
+    .home-img-container{
+        width: 8.5%;
+        height: 45%;
+        float: right;
+        margin-right: 3%;
+        /* background-color: yellow; */
+        text-align: center;
+        font-family: 'Capriola', sans-serif ;
+        border: 2px solid black;
+        border-radius: 10px;
+    }
+
+    .form-container{
+        margin-top: 15px;
+        width: 45%;
+        height: 80%;
+        border: 2px solid black;
+        margin-left: 27.5%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .item{
+        width: 50%;
+    }
+
+    .item .submit-btn{
+        width: 45%;
+    }
+
+    .item .reset-btn{
+        width: 40%;
+        margin-left: 10%;
+    }
+
+    .home-img-container:hover{
+        transform: scale(1.1);
+    }
+
+    /* On screens that are less than 700px, display the bar vertically, instead of horizontally */
+    @media screen and (max-width: 750px) {
+      .page-heading {
+        font-size: 150%;
+        padding: 30px;
+      } 
+      
+      .form-container{
+        width: 75%;
+        height: 75%;
+        margin-left: 12.5%;
+      }
+    }
+
+    /* On screens that are less than 450px, display the bar vertically, instead of horizontally */
+    @media screen and (max-width: 450px) {
+      .page-heading {
+        font-size: 130%;
+        padding: 30px;
+      }
+      
+      .form-container{
+        width: 90%;
+        height: 77%;
+        margin-left: 5%;
+      }
+
+      .item{
+        width: 75%;
+      }
+
+      .item .submit-btn{
+        width: 50%;
+      }
+
+      .item .reset-btn{
+        width: 30%;
+        margin-left: 10%;
+      }
+    }
+
+    
+
+</style>
+
+
+<body>
+    <div class="page-heading-container">
+        <h2 class="page-heading">
+            Book &nbsp Lab &nbsp Tests &nbsp From &nbsp The &nbsp Comfort &nbsp Of &nbsp Your &nbsp Home
+        </h2>
+        <a class="home-img-container">
+            Hi, {{user.username}}
+        </a>
+    </div>
+        
+    <form class="form-container" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input name="fullName" type="text" placeholder="Name of the Patient" class="item">
+        <input name="address" type="text" placeholder="Address" class="item">
+        <input name="contact" type="tel" placeholder="Contact Number" class="item" maxlength="10">
+        <select name="testName" class="item">
+            <option name="test1" value="Basic Metabolic Panel">Basic Metabolic Panel</option>
+            <option name="test2" value="Comprehensive Metabolic Panel">Comprehensive Metabolic Panel</option>
+            <option name="test3" value="Lipid Panel">Lipid Panel</option>
+            <option name="test4" value="Thyroid Panel">Thyroid Panel</option>
+        </select>
+        <input name="date" type="date" class="item">
+        {% comment %} <input name="timeSlot" type="text" placeholder="Preferred Time Slot" class="item"> {% endcomment %}
+        <select name="timeSlot" class="item">
+          <option name="slot1" value="11AM-12PM">11AM - 12PM</option>
+          <option name="slot2" value="12PM - 1PM">12PM - 1PM</option>
+          <option name="slot3" value="4PM - 5PM">4PM - 5PM</option>
+          <option name="slot4" value="5PM - 6PM">5PM - 6PM</option>
+      </select>
+        <div class="item">
+            <button type="submit" class="submit-btn"> Book Lab Test </button>
+            <button type="reset" class="reset-btn"> Reset </button>
+        </div>
+
+        {% if booked %}
+            <div class="confirmation">A confirmation email has been sent to {{user.email}}, please check your inbox!</div>
+        {% endif %}
+      </form>
+
+</body>
+
+{% endblock %}

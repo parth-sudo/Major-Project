@@ -1,8 +1,9 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import HeartPatient, DiabetesPatient, LiverPatient
+from .models import HeartPatient, DiabetesPatient, LiverPatient, Profile
 from django.forms import TextInput
+
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
@@ -41,3 +42,7 @@ class LiverPatientForm(forms.ModelForm):
         widgets = {
             'user': TextInput(attrs={'readonly': 'readonly'})
         }
+
+
+
+    

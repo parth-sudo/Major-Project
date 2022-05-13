@@ -21,7 +21,7 @@ urlpatterns = [
     path('liver_prediction/', views.liver_prediction, name='liver_prediction'),
 
     path('analyze/<str:parameter>/', views.analyze1, name='analyze'),
-
+    path('bookLabTests', views.book_lab_test, name = 'book_lab_test'),
 ]   
 
 if settings.DEBUG:

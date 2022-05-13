@@ -3,9 +3,10 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, HeartPatientForm, DiabetesPatientForm, LiverPatientForm
 from django.contrib.auth.models import User
-from .models import Doctor, Profile, HeartPatient, DiabetesPatient, Disease, LiverPatient
+from .models import Doctor, Profile, HeartPatient, DiabetesPatient, Disease, LiverPatient, BookLabTest
 from .predictions import heart_disease, diabetes, liver_disease
-
+from django.core.mail import send_mail
+from django.conf import settings
 
 def home(request):
     return render(request, 'backend/home.html', {})
@@ -144,7 +145,7 @@ def profile(request):
         return render(request, 'backend/profile.html', {})
 
     user_profile = Profile.objects.filter(user = current_user)[0]
-    heart_patient_array = HeartPatient.objects.all().filter(user_profile=user_profile)
+    heart_patient_array = HeartPatient.objects.all().filter(user=current_user)
 
     cholesterol_array = []
     blood_pressure_array = []
@@ -282,3 +283,33 @@ def analyze1(request, parameter):
 
 def about(request):
     return render(request,'backend/about.html',{'title':'About'})
+
+
+@login_required
+def book_lab_test(request):
+    context = {}
+    if request.method == 'POST':
+        full_name = request.POST.get('fullName')
+        address = request.POST.get('address')
+        contact = request.POST.get('contact')
+        test_name = request.POST.get('testName')
+      
+        # test1 = request.POST.get('test1')
+        date = request.POST.get('date')
+        time_slot = request.POST.get('timeSlot')
+        print(date)
+
+        prof = BookLabTest.objects.create(full_name=full_name,address=address,contact=contact,test_name=test_name,time_slot=time_slot,date=date)
+
+        # send email function.
+        email_receiver = request.user.email
+        email_sender = settings.EMAIL_HOST_USER
+        context = {'full_name':full_name,'test_name':test_name,'time_slot':time_slot,'email':email_receiver}
+        
+        msg = f"Dear {full_name}, your test has been booked successfully. The practioner will arrive at somewhere between {time_slot} on {date}."
+        send_mail("Test Confirmation Email", msg, email_sender, [email_receiver])
+        context['booked'] = prof
+
+        return render(request, 'backend/book_lab_test.html', context)
+
+    return render(request, 'backend/book_lab_test.html', {})

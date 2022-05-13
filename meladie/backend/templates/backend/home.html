@@ -36,10 +36,10 @@
     }
 
     /* Active/current link */
-    .sidebar a.active {
+    /* .sidebar a.active {
       /* background-color: #04AA6D; */
       /* color: white; */
-    }
+    /* } */
 
     /* Links on mouse-over */
     .sidebar a:hover:not(.active) {
@@ -98,10 +98,16 @@
   <body>
     <!-- The sidebar -->
     <div class="sidebar">
+      <a href="{% url 'book_lab_test' %}"> Book &nbsp Lab &nbsp Test </a>
       <a href="{% url 'disease_information' 'heart_disease' %}"> Disease &nbsp Information </a>
       <a href="{% url 'prediction' %}"> Disease &nbsp Prediction </a>
       <a href="{% url 'consult_doctors' %}"> Consult &nbsp Doctors </a>
       <a href="{% url 'analyze' 'cholesterol' %}"> Analyze &nbsp Parameters </a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'profile' %}">My &nbsp Profile</a>
+      {% else %}
+        <a href="{% url 'login' %}">My &nbsp Profile</a>
+      {% endif %} 
     </div>
 
     <!-- Page content -->
@@ -118,14 +124,14 @@
     </div>
 
   
-    <div style="text-align:center">
+    <!-- <div style="text-align:center">
       {% if user.is_authenticated %}
    <a href="{% url 'logout' %}"> <button type="button" class="btn btn-light">Logout</button> </a>  
 
    {% else %}
    <a href="{% url 'login' %}"> <button type="button" class="btn btn-light">Login</button> </a>  
    {% endif %} 
-  </div>
+  </div> -->
 
    
   </body>
