@@ -10,17 +10,18 @@ urlpatterns = [
     path('register/',views.register,name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='backend/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='backend/logout.html'), name='logout'),
-    path('analyze/', views.analyze, name='analyze'),
+ 
     path('predict/', views.heart_disease_prediction, name='prediction'),
 
     path('accounts/profile/', views.profile, name='profile'),
     path('predict_diabetes/', views.diabetes_prediction, name = 'diabetes_prediction'),
 
-    path('information/heart_disease/', views.heart_disease_information, name = 'heart_disease_info'),
-    path('information/diabetes/', views.diabetes_information, name = 'diabetes_info'),
-    path('information/liver_disease/', views.liver_disease_information, name='liver_info'),
+    path('information/<str:disease_name>/', views.disease_information, name = 'disease_information'),
     path('consult_doctors/', views.consult_doctors, name='consult_doctors'),
     path('liver_prediction/', views.liver_prediction, name='liver_prediction'),
+
+    path('analyze/<str:parameter>/', views.analyze1, name='analyze'),
+    path('bookLabTests', views.book_lab_test, name = 'book_lab_test'),
 ]   
 
 if settings.DEBUG:

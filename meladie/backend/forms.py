@@ -22,22 +22,22 @@ class HeartPatientForm(forms.ModelForm):
                 'fasting_blood_sugar', 'maximum_heart_rate_achieved', 'exercise_induced_angina']
 
         widgets = {
-            'user_profile': TextInput(attrs={'readonly': 'readonly'})
+            'user': TextInput(attrs={'readonly': 'readonly'})
         }
 
 class DiabetesPatientForm(forms.ModelForm):
     class Meta:
         model = DiabetesPatient
+        # fields = '__all__'
         fields = ['glucose', 'blood_pressure', 'insulin', 'body_mass_index', 'age']
         widgets = {
-            'user_profile': TextInput(attrs={'readonly': 'readonly'})
+            'user': TextInput(attrs={'readonly': 'readonly'})
         }
-
 
 class LiverPatientForm(forms.ModelForm):
     class Meta:
         model = LiverPatient
         fields = ['age', 'gender', 'total_bilirubin', 'alkaline_phosphotase', 'alamine_aminotransferase', 'total_protiens', 'albumin']
         widgets = {
-            'user_profile': TextInput(attrs={'readonly': 'readonly'})
+            'user': TextInput(attrs={'readonly': 'readonly'})
         }

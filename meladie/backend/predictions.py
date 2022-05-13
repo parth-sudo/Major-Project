@@ -19,8 +19,9 @@ def heart_disease(age, sex, chest_pain_type, resting_blood_pressure, cholesterol
 
     parameters = (age, sex, chest_pain_type, resting_blood_pressure, cholesterol, fasting_blood_sugar, maximum_heart_rate_achieved, exercise_induced_angina)
     
+    # heart_data = pd.read_csv("C:/Users/Admin/Downloads/heart_Data_2.csv")
     heart_data = pd.read_csv("C:/Users/DELL/Desktop/MAJOR PROJECT DATA/heart_Data_2.csv")
-
+    
     # Splitting the features and targets
     X = heart_data.drop(columns = 'target', axis = 1)
     Y = heart_data['target']
@@ -53,6 +54,7 @@ def diabetes(glucose, blood_pressure, insulin, body_mass_index, age):
 
     parameters = (glucose, blood_pressure, insulin, body_mass_index, age)
 
+    # diabetes_data = pd.read_csv("C:/Users/Admin/Downloads/diabetes_data.csv")
     diabetes_data = pd.read_csv("C:/Users/DELL/Desktop/diabetes_data.csv")
 
     X = diabetes_data.drop(columns = 'Outcome', axis = 1)
@@ -73,7 +75,7 @@ def diabetes(glucose, blood_pressure, insulin, body_mass_index, age):
     prediction = model.predict(input_data_reshaped)
     prediction = prediction.tolist()
     
-    return(prediction[0])
+    return (prediction[0])
 
 def liver_disease(age, gender, total_bilirubin, alkaline_phosphotase, alamine_aminotransferase, total_protiens, albumin) :
     
@@ -87,8 +89,9 @@ def liver_disease(age, gender, total_bilirubin, alkaline_phosphotase, alamine_am
 
     parameters = (age, gender, total_bilirubin, alkaline_phosphotase, alamine_aminotransferase, total_protiens, albumin)
     
-    liver_data = pd.read_csv('C:/Users/DELL/Desktop/LiverDiseaseDataset.csv')
-
+    # liver_data = pd.read_csv('C:/Users/Admin/Downloads/LiverDiseaseDataset.csv')
+    liver_data = pd.read_csv("C:/Users/DELL/Desktop/LiverDiseaseDataset.csv")
+    
     # Separating the data and labels
     X = liver_data.drop(columns = 'target', axis = 1)
     Y = liver_data['target']

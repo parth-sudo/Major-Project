@@ -96,26 +96,6 @@
     </div>
   </nav>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-      
-
           
           <!-- <div class = "user-name-display">
             <h5> Hi &nbsp {{user_profile.user.username}}!! </h5>
@@ -126,20 +106,35 @@
           </a>
         
           <div class="form-container">
+
             <form method = "POST">
                 {% csrf_token %}
             
                 {{form.as_p}}
                 
-                  <a href="{% url 'prediction' %}" style="text-decoration: none; color:blue">
-                    <button class="submit submit-btn"> 
+                  {% comment %} <a href="{% url 'prediction' %}" style="text-decoration: none; color:blue">
+                    <button type="submit" class="submit submit-btn"> 
                       Predict Disease
                     </button>
-                  </a>
+                  </a> {% endcomment %}
+
+                  <div class="form-group">
+                    <button class="btn btn-dark" type="submit">Predict</button>
+                 </div>
+
                   <div class="result">
                     {{answer}}
                   </div>
+                  
               </form>
+
+              <div>
+
+                {% if answer %}
+                  <a href="{% url 'consult_doctors' %}"> <button class="btn btn-primary"> Consult Doctors?  </button> </a>
+                {% endif %}
+
+              </div>
             </div>
 
 </body>
