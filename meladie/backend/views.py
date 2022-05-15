@@ -140,7 +140,7 @@ def profile(request):
     profile = Profile.objects.filter(user = current_user)
 
     if not profile.exists():
-        user_profile = Profile.objects.create(user=current_user, tests_taken=0)
+        user_profile = Profile.objects.create(user=current_user)
         context['user_profile'] = user_profile 
         return render(request, 'backend/profile.html', {})
 

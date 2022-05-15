@@ -10,13 +10,14 @@
         box-sizing: border-box;
         width: 100vw;
         height: 100vh;
+        background-color: #e3e1e95c;
     }
 
     .page-heading-container{
         width: 100%;
-        height: 14%;
-        /* background-color: red; */
-        padding-top: 15px;
+        height: 12%;
+        background-color: #9ba2cf82;
+        padding-top: 20px;
     }
 
     .page-heading{
@@ -25,75 +26,151 @@
         text-align: center;
         font-family: 'Arvo', serif;
         font-size: 180%;
-        /* background-color: blue; */
         display: inline-block;
     }
 
     .home-img-container{
-        width: 8.5%;
-        height: 45%;
-        float: right;
-        margin-right: 3%;
-        /* background-color: yellow; */
-        text-align: center;
-        font-family: 'Capriola', sans-serif ;
-        border: 2px solid black;
-        border-radius: 10px;
+      width: 8.5%;
+      height: 45%;
+      float: right;
+      margin-right: 3%;
+      text-align: center;
+    }
+
+    .home-img{
+      width: 30px;
+      height: 30px;
     }
 
     .form-container{
-        margin-top: 15px;
-        width: 45%;
-        height: 80%;
-        border: 2px solid black;
-        margin-left: 27.5%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        align-items: center;
+      margin-top: 25px;
+      width: 45%;
+      height: 80%;
+      box-shadow: 0px 0px 12px 0px black;
+      margin-left: 27.5%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+    }
+
+    .profile-container{
+      width: 100%;
+      text-align: end;
+      padding-right: 10px;
+    }
+
+    .profile-name{
+      border: 2px solid black;
+      border-radius: 5px;
+      padding-right: 5px;
+      padding-left: 5px;
     }
 
     .item{
-        width: 50%;
+      width: 50%;
     }
 
     .item .submit-btn{
-        width: 45%;
+      width: 45%;
     }
 
-    .item .reset-btn{
-        width: 40%;
-        margin-left: 10%;
+    .item .info-btn{
+      width: 40%;
+      margin-left: 10%;
+    }
+
+    .modal{
+      display: none;
+      overflow: auto;
+      width: 50%;
+      height: 86%;
+      position: absolute;
+      background-color: white;
+      box-shadow: 0px 0px 12px 0px black;
+      border-radius: 20px;
+      top: 5%;
+      left: 25%;
     }
 
     .home-img-container:hover{
-        transform: scale(1.1);
+      transform: scale(1.1);
     }
 
-    /* On screens that are less than 700px, display the bar vertically, instead of horizontally */
-    @media screen and (max-width: 750px) {
+    .profile-name:hover{
+      border: 3px solid;
+    }
+
+    .confirmation{
+      text-align: center;
+    }
+
+    /* On screens that are less than 800px, display the bar vertically, instead of horizontally */
+    @media screen and (max-width: 800px) {
+
+      .page-heading-container{
+        padding-top: 15px;
+        height: 13%;
+      }
+
       .page-heading {
         font-size: 150%;
         padding: 30px;
+        padding: 0px;
+        margin: 0px;
+        height: 100%;
+        font-size: 135%;
       } 
       
       .form-container{
-        width: 75%;
-        height: 75%;
-        margin-left: 12.5%;
+        width: 80%;
+        height: 78%;
+        margin-left: 10%;
+        margin-top: 30px;
+      }
+
+      .modal{
+        width: 70%;
+        left: 15%;
       }
     }
 
     /* On screens that are less than 450px, display the bar vertically, instead of horizontally */
     @media screen and (max-width: 450px) {
+
+      .page-heading-container{
+        width: 100%;
+        height: 14%;
+        background-color: #9ba2cf91;
+        padding: 0px;
+      }
+
       .page-heading {
-        font-size: 130%;
-        padding: 30px;
+        font-size: 115%;
+        padding-top: 20px;
+        padding-left: 15px;
+        padding-right: 15px;
+        width: 80%;
+        height: 100%;
+      }
+
+      .home-img-container{
+        width: 15%;
+        height: 100%;
+        font-size: 80%;
+        margin-right: 5px;
+        margin-left: 0px;
+        padding-top: 25px;
+      }
+
+      .home-img{
+        width: 30px;
+        height: 30px;
       }
       
       .form-container{
         width: 90%;
-        height: 77%;
+        height: 82%;
         margin-left: 5%;
       }
 
@@ -105,56 +182,154 @@
         width: 50%;
       }
 
-      .item .reset-btn{
+      .item .info-btn{
         width: 30%;
         margin-left: 10%;
       }
+
+      .modal{
+        width: 85%;
+        left: 7.5%;
+      }
     }
 
-    
-
 </style>
-
 
 <body>
     <div class="page-heading-container">
         <h2 class="page-heading">
             Book &nbsp Lab &nbsp Tests &nbsp From &nbsp The &nbsp Comfort &nbsp Of &nbsp Your &nbsp Home
         </h2>
-        <a class="home-img-container">
-            Hi, {{user.username}}
+        <a class="home-img-container" href="{% url 'home' %}" style="text-decoration: none; color: black;">  
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Home_Icon.svg/2048px-Home_Icon.svg.png" class="home-img">
         </a>
     </div>
         
     <form class="form-container" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <input name="fullName" type="text" placeholder="Name of the Patient" class="item">
-        <input name="address" type="text" placeholder="Address" class="item">
-        <input name="contact" type="tel" placeholder="Contact Number" class="item" maxlength="10">
-        <select name="testName" class="item">
+        <a class="profile-container" href="{% url 'profile' %}" style="text-decoration: none; color: black;">
+          <span class="profile-name">
+            <b>
+              Hi, {{user.username}}
+            </b>
+          </span>
+        </a>
+        <input name="fullName" type="text" placeholder="Name of the Patient" class="item" required>
+        <input name="address" type="text" placeholder="Address" class="item" required>
+        <input name="contact" type="tel" placeholder="Contact Number" class="item" maxlength="10" required>
+        <select name="testName" class="item" required>
             <option name="test1" value="Basic Metabolic Panel">Basic Metabolic Panel</option>
             <option name="test2" value="Comprehensive Metabolic Panel">Comprehensive Metabolic Panel</option>
             <option name="test3" value="Lipid Panel">Lipid Panel</option>
             <option name="test4" value="Thyroid Panel">Thyroid Panel</option>
         </select>
-        <input name="date" type="date" class="item">
-        {% comment %} <input name="timeSlot" type="text" placeholder="Preferred Time Slot" class="item"> {% endcomment %}
-        <select name="timeSlot" class="item">
+        <input name="date" type="date" class="item" required>
+        <select name="timeSlot" class="item" required>
           <option name="slot1" value="11AM-12PM">11AM - 12PM</option>
           <option name="slot2" value="12PM - 1PM">12PM - 1PM</option>
-          <option name="slot3" value="4PM - 5PM">4PM - 5PM</option>
-          <option name="slot4" value="5PM - 6PM">5PM - 6PM</option>
+          <option name="slot3" value="12PM - 1PM">1PM - 2PM</option>
+          <option name="slot4" value="12PM - 1PM">2PM - 3PM</option>
+          <option name="slot5" value="12PM - 1PM">3PM - 6PM</option>
+          <option name="slot6" value="4PM - 5PM">4PM - 5PM</option>
+          <option name="slot7" value="5PM - 6PM">5PM - 6PM</option>
       </select>
         <div class="item">
             <button type="submit" class="submit-btn"> Book Lab Test </button>
-            <button type="reset" class="reset-btn"> Reset </button>
+            <button class="info-btn"> Info </button>
         </div>
 
         {% if booked %}
-            <div class="confirmation">A confirmation email has been sent to {{user.email}}, please check your inbox!</div>
+            <div class="confirmation">
+              <b>
+                A confirmation email has been sent to <span style="color:blue"> {{user.email}} </span>, please check your inbox!
+              </b>
+              
+            </div>
         {% endif %}
       </form>
 
+      <!-- MODAL -->
+      <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Tests Information</h5>
+            </div>
+            <div class="modal-body">
+              <p class="my-modal-text"></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" id="close-btn" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END OF MODAL -->
+
+    <script>
+
+      let infoBtn = document.querySelector(".info-btn");
+      let modal = document.querySelector(".modal");
+      let myModalText = document.querySelector(".my-modal-text");
+      let pageHeadingContainer = document.querySelector(".page-heading-container");
+      let formContainer = document.querySelector(".form-container");
+      let modalCloseBtn = document.querySelector("#close-btn");
+
+      infoBtn.addEventListener('click', function(e) {
+        let msg = `
+      1. A basic metabolic panel (BMP) usually checks for levels of 
+      below listed compounds in the blood :-
+          
+          -> Calcium
+          -> Sodium
+          -> Potassium
+          -> Glucose
+          -> Bicarbonate
+          -> Chloride
+          -> Blood Urea Nitrogen (BUN)
+          -> Creatinine
+
+      Note - This test may require you to fast for at least 8 hours 
+      before your blood is drawn.
+
+      2. A comprehensive metabolic panel (CMP) includes substances 
+      related to liver function, such as :-
+      
+          -> Albumin
+          -> Total Proteins
+          -> Alkaline Phosphatase (ALP)
+          -> Bilirubin
+          -> Alanine Aminotransferase (ALT)
+      
+      3. Lipid Panel Test checks levels of two types of cholesterol :-
+
+          -> High-Density Lipoprotein (HDL), or “good” cholesterol
+          -> Low-Density Lipoprotein (LDL), or “bad” cholesterol
+
+      Note - You may need to fast for at least 8 hours before this test.
+
+      4. A Thyroid Panel, or thyroid function test, checks how well 
+      your thyroid is producing and reacting to certain hormones, 
+      such as :-
+
+          -> Triiodothyronine (T3)
+          -> Thyroxine (T4)
+          -> Thyroid-stimulating hormone (TSH)
+        `
+
+        myModalText.innerText = msg;
+        pageHeadingContainer.style.opacity = 0.2;
+        formContainer.style.opacity = 0.2;
+        modal.style.display = 'block';
+      });
+
+      modalCloseBtn.addEventListener('click', function(e) {
+        pageHeadingContainer.style.opacity = 1.0;
+        formContainer.style.opacity = 1.0;
+        modal.style.display = 'none';
+      })
+
+    </script>
 </body>
 
 {% endblock %}
