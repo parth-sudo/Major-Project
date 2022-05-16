@@ -139,6 +139,30 @@
 
               </div>
             </div>
+            
+            {% if disease_name == "Heart Disease" %}
+            {% comment %} <h6>Chest pain type:</h6> {% endcomment %}
+            <div>
+              <ul>
+
+                {% for key,value in chest_pain_type.items %}
+                  <li> <b>{{key}}</b> - {{value}} </li>
+                {% endfor %}
+
+              </ul>
+            </div>
+            {% endif %}
+
+            <div>
+              <ul>
+
+                {% for key, value in parameters_info.items %}
+                  <li> <b>{{key}}</b> - {{value}} </li>
+                {% endfor %}
+
+              </ul>
+      
+            </div>
 
 </body>
 

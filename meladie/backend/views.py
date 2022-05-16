@@ -7,6 +7,7 @@ from .models import Doctor, Profile, HeartPatient, DiabetesPatient, Disease, Liv
 from .predictions import heart_disease, diabetes, liver_disease
 from django.core.mail import send_mail
 from django.conf import settings
+from .extras import chest_pain_type, heart_parameters_info, diabetes_parameters_info, liver_parameters_info
 
 def home(request):
     return render(request, 'backend/home.html', {})
@@ -27,6 +28,15 @@ def register(request):
 @login_required
 def heart_disease_prediction(request):
     context = {}
+    chest_pain_type = {
+      "Typical Angina" : "Substernal chest discomfort of characteristic quality and duration, Provoked by exertion or emotional stress, Relieved by rest and/ or GTN", 
+                 "Atypical Angina" : "Meets two of above mentioned characteristics", 
+                 "Non-Anginal Pain" : "Meets one or none of the characteristics"
+    }
+
+    context['chest_pain_type'] = chest_pain_type
+    context['parameters_info'] = heart_parameters_info
+    context['disease_name'] = "Heart Disease"
     if request.method == 'POST':
         form = HeartPatientForm(request.POST)
         if form.is_valid():
@@ -41,7 +51,7 @@ def heart_disease_prediction(request):
             chest_pain_type=form.cleaned_data.get('chest_pain_type')
             resting_blood_pressure=form.cleaned_data.get('resting_blood_pressure')
             cholesterol=form.cleaned_data.get('cholesterol')
-            fasting_blood_sugar = form.cleaned_data.get('fasting_blood_sugar')
+            fasting_blood_sugar = form.cleaned_data.get('fasting_blood_sugar_greater_than_120')
             maximum_heart_rate_achieved = form.cleaned_data.get('maximum_heart_rate_achieved')
             exercise_induced_angina = form.cleaned_data.get('exercise_induced_angina')
 
@@ -52,14 +62,21 @@ def heart_disease_prediction(request):
             answer = "Heart Disease detected." if result == 1 else "No, you don't have heart disease."
             context['answer'] = answer
             context['disease_name'] = "Heart Disease"
+            # context['chest_pain_type'] = chest_pain_type
             return render(request, 'backend/disease_prediction.html', context)
     else:
         form = HeartPatientForm()
-    return render(request,'backend/disease_prediction.html', {'form' : form, 'answer' : "", 'disease_name': "Heart Disease"})
+        context['form'] = form
+        context['answer'] = ""
+        # context['chest_pain_type'] = chest_pain_type
+    return render(request,'backend/disease_prediction.html', context)
 
 @login_required
 def diabetes_prediction(request):
     context = {}
+
+    context['parameters_info'] = diabetes_parameters_info
+    context['disease_name'] = "Diabetes"
     if request.method == 'POST':
         form = DiabetesPatientForm(request.POST)
         if form.is_valid():
@@ -84,11 +101,17 @@ def diabetes_prediction(request):
             return render(request, 'backend/disease_prediction.html', context)
     else:
         form = DiabetesPatientForm()
-    return render(request,'backend/disease_prediction.html', {'form' : form, 'answer' : "", 'disease_name': "Diabetes"})
+        context['form'] = form
+        context['answer'] = ""
+    return render(request,'backend/disease_prediction.html', context)
 
 @login_required
 def liver_prediction(request):
     context = {}
+   
+    context['parameters_info'] = liver_parameters_info
+    context['disease_name'] = "Liver Disease"
+
     if request.method == 'POST':
         form = LiverPatientForm(request.POST)
         if form.is_valid():
@@ -112,10 +135,13 @@ def liver_prediction(request):
             answer = "Liver Disease detected." if result == 1 else "No, you don't liver disease."
             context['answer'] = answer
             context['disease_name'] = "Liver Disease"
+          
             return render(request, 'backend/disease_prediction.html', context)
     else:
         form = LiverPatientForm()
-    return render(request,'backend/disease_prediction.html', {'form' : form, 'answer' : "", 'disease_name': "Liver Disease"})
+        context['form'] = form
+        context['answer'] = ""
+    return render(request,'backend/disease_prediction.html', context)
 
 def disease_information(request, disease_name):
     context = {}
