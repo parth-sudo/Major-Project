@@ -10,6 +10,7 @@
         background-color: #e3e1e95c;
         width: 100vw;
         height: 100vh;
+        overflow-x: hidden;
       }
 
       .heading-container{
@@ -67,7 +68,9 @@
         font-size: 180%;
       }
 
-      
+      .table{
+        margin-top: 30px;
+      }
 
       .home-img:hover{
         transform: scale(1.1);
@@ -87,6 +90,7 @@
     @media screen and (max-width: 450px) {
       .heading-container{
         height: 9%;
+        width: 140%;
       } 
 
       .heading-div{
@@ -140,238 +144,127 @@
 
     {% if heartTestDone %}
       {% if isHeartPatient %}
-        
-    
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!-- <h1>
-      BASED ON THE RESULTS OF PREDICTIVE TESTS, WE SUGGEST YOU DOCTORS FOR THE
-      BELOW MENTIONED DISEASES
-    </h1>
-
-      
-
-      
-
-      <table>
-        <caption>
-          Heart Disease
-        </caption>
-    
-      <thead>
-        <tr>
-          <th scope="col">Doctor Name</th>
-          <th scope="col">Address</th>
-          <th scope="col">Contact Number</th>
-          <th scope="col">Years of Experience</th>
-          <th scope="col">Gender</th>
-          <th scope="col">Rating</th>
-
-        </tr>
-      </thead>
-      <tbody>
-        {% for doctor in heart_doctors %}
-           <tr>
-            <td data-label="Doctor Name">{{doctor.full_name}}</td>
-            <td data-label="Address">{{doctor.address}}</td>
-            <td data-label="Contact Number">{{doctor.contact}}</td>
-            <td data-label="Years of Experience">{{doctor.yoe}}</td>
-            <td data-label="Gender">{{doctor.gender}}</td>
-            <td data-label="Rating">{{doctor.rating}}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-
-      {% else %}
-
-      <h2> Wow, your statistics are quite impressive! You don't need a heart disease doctor at the moment. </h2>
-
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-10">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Doctor Name</th>
+                  <th>Address</th>
+                  <th>Contact Number</th>
+                  <th>Years of Experience</th>
+                  <th>Gender</th>
+                  <th>Rating</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for doctor in heart_doctors %}
+                 <tr>
+                  <td data-label="Doctor Name">{{doctor.full_name}}</td>
+                  <td data-label="Address">{{doctor.address}}</td>
+                  <td data-label="Contact Number">{{doctor.contact}}</td>
+                  <td data-label="Years of Experience">{{doctor.yoe}}</td>
+                  <td data-label="Gender">{{doctor.gender}}</td>
+                  <td data-label="Rating">{{doctor.rating}}</td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div class="col-1"></div>
+        </div>
+        {% else %}
       {% endif %}
 
-    {% else %}
-
-    <h2> You haven't taken any test yet. Click <a href="{% url 'prediction' %}"> here </a> to take one. </h2>
-
+      {% else %}
     {% endif %}
 
-    </table>
-
-        {% if diabetesTestDone %}
-
+      {% if diabetesTestDone %}
         {% if isdiabetesPatient %}
-
-        <table>
-          <caption>
-            Diabetes
-          </caption>
-
-        <thead>
-          <tr>
-            <th scope="col">Doctor Name</th>
-            <th scope="col">Address</th>
-            <th scope="col">Contact Number</th>
-            <th scope="col">Years of Experience</th>
-            <th scope="col">Gender</th>
-            <th scope="col">Rating</th>
-  
-          </tr>
-        </thead>
-        <tbody>
-            
-          {% for doctor in diabetes_doctors %}
-            <tr>
-            <td data-label="Doctor Name">{{doctor.full_name}}</td>
-            <td data-label="Address">{{doctor.address}}</td>
-            <td data-label="Contact Number">{{doctor.contact}}</td>
-            <td data-label="Years of Experience">{{doctor.yoe}}</td>
-            <td data-label="Gender">{{doctor.gender}}</td>
-            <td data-label="Rating">{{doctor.rating}}</td>
-          </tr>
-        {% endfor %}
-        </tbody>
-
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-10">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Doctor Name</th>
+                  <th>Address</th>
+                  <th>Contact Number</th>
+                  <th>Years of Experience</th>
+                  <th>Gender</th>
+                  <th>Rating</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for doctor in diabetes_doctors %}
+                  <tr>
+                    <td data-label="Doctor Name">{{doctor.full_name}}</td>
+                    <td data-label="Address">{{doctor.address}}</td>
+                    <td data-label="Contact Number">{{doctor.contact}}</td>
+                    <td data-label="Years of Experience">{{doctor.yoe}}</td>
+                    <td data-label="Gender">{{doctor.gender}}</td>
+                    <td data-label="Rating">{{doctor.rating}}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div class="col-1"></div>
+        </div>
         {% else %}
-
-      <h2> Wow, your statistics are quite impressive! You don't need a doctor at the moment. </h2>
-
       {% endif %}
 
       {% else %}
+    {% endif %}
 
-      <h2> You haven't taken any test yet. Click <a href="{% url 'diabetes_prediction' %}"> here </a> to take one. </h2>
+    {% if liverTestDone %}
+      {% if isLiverPatient %}
+      <div class="row">
+        <div class="col-1"></div>
+        <div class="col-10">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Doctor Name</th>
+                <th>Address</th>
+                <th>Contact Number</th>
+                <th>Years of Experience</th>
+                <th>Gender</th>
+                <th>Rating</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for doctor in liver_doctors %}
+                <tr>
+                  <td data-label="Doctor Name">{{doctor.full_name}}</td>
+                  <td data-label="Address">{{doctor.address}}</td>
+                  <td data-label="Contact Number">{{doctor.contact}}</td>
+                  <td data-label="Years of Experience">{{doctor.yoe}}</td>
+                  <td data-label="Gender">{{doctor.gender}}</td>
+                  <td data-label="Rating">{{doctor.rating}}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="col-1"></div>
+      </div>
+      {% else %}
+    {% endif %}
 
-      {% endif %}
+    {% else %}
+  {% endif %}
 
-      </table>
 
-        {% if liverTestDone %}
+  <script>
+    window.onload = function() {
+      alert("Kindly make sure that you have taken all the possible predictive tests based on your latest lab tests reports.")
+    }
+  </script>
+</body>
 
-        {% if isLiverPatient %}
-
-        <table>
-          <caption>
-            Liver Disease
-          </caption>
-
-        <thead>
-          <tr>
-            <th scope="col">Doctor Name</th>
-            <th scope="col">Address</th>
-            <th scope="col">Contact Number</th>
-            <th scope="col">Years of Experience</th>
-            <th scope="col">Gender</th>
-            <th scope="col">Rating</th>
-  
-          </tr>
-        </thead>
-        <tbody>
-          {% for doctor in liver_doctors %}
-            <tr>
-              <td data-label="Doctor Name">{{doctor.full_name}}</td>
-              <td data-label="Address">{{doctor.address}}</td>
-              <td data-label="Contact Number">{{doctor.contact}}</td>
-              <td data-label="Years of Experience">{{doctor.yoe}}</td>
-              <td data-label="Gender">{{doctor.gender}}</td>
-              <td data-label="Rating">{{doctor.rating}}</td>
-           </tr>
-        {% endfor %}
-        </tbody>
-
-        {% else %}
-
-        <h2> Wow, your statistics are quite impressive! You don't need a doctor at the moment. </h2>
-  
-        {% endif %}
-  
-        {% else %}
-  
-        <h2> You haven't taken any test yet. Click <a href="{% url 'liver_prediction' %}"> here </a> to take one. </h2>
-  
-        {% endif %}
-
-      </table> -->
-  </body>
-
-  {% endblock %}
+{% endblock %}
