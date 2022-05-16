@@ -68,8 +68,14 @@
         font-size: 180%;
       }
 
+      .table-title{
+        margin-top: 50px;
+        text-align: center;
+        font-size: 115%;
+      }
+
       .table{
-        margin-top: 30px;
+        margin-top: 15px;
       }
 
       .home-img:hover{
@@ -145,8 +151,11 @@
     {% if heartTestDone %}
       {% if isHeartPatient %}
         <div class="row">
-          <div class="col-1"></div>
-          <div class="col-10">
+          <div class="col"></div>
+          <div class="col-11">
+            <div class="table-title">
+              Doctors for Heart Disease
+            </div>
             <table class="table">
               <thead>
                 <tr>
@@ -168,12 +177,17 @@
                   <td data-label="Years of Experience">{{doctor.yoe}}</td>
                   <td data-label="Gender">{{doctor.gender}}</td>
                   <td data-label="Rating">{{doctor.rating}}</td>
+                  <td>
+                    <a href="{% url 'book_doctor_appointment' %}" style="text-decoration: none;">
+                      <button type="button" class="btn btn-primary appointment-btn heart {{forloop.counter }}">Book Appointment</button>
+                    </a>
+                  </td>
                 </tr>
               {% endfor %}
               </tbody>
             </table>
           </div>
-          <div class="col-1"></div>
+          <div class="col"></div>
         </div>
         {% else %}
       {% endif %}
@@ -184,8 +198,11 @@
       {% if diabetesTestDone %}
         {% if isdiabetesPatient %}
         <div class="row">
-          <div class="col-1"></div>
-          <div class="col-10">
+          <div class="col"></div>
+          <div class="col-11">
+            <div class="table-title">
+              Doctors for Diabetes
+            </div>
             <table class="table">
               <thead>
                 <tr>
@@ -207,12 +224,17 @@
                     <td data-label="Years of Experience">{{doctor.yoe}}</td>
                     <td data-label="Gender">{{doctor.gender}}</td>
                     <td data-label="Rating">{{doctor.rating}}</td>
+                    <td>
+                      <a href="{% url 'book_doctor_appointment' %}" style="text-decoration: none;">
+                        <button type="button" class="btn btn-primary appointment-btn diabetes {{forloop.counter }}">Book Appointment</button>
+                      </a>
+                    </td>
                   </tr>
                 {% endfor %}
               </tbody>
             </table>
           </div>
-          <div class="col-1"></div>
+          <div class="col"></div>
         </div>
         {% else %}
       {% endif %}
@@ -223,8 +245,11 @@
     {% if liverTestDone %}
       {% if isLiverPatient %}
       <div class="row">
-        <div class="col-1"></div>
-        <div class="col-10">
+        <div class="col"></div>
+        <div class="col-11">
+          <div class="table-title">
+            Doctors for Liver Disease
+          </div>
           <table class="table">
             <thead>
               <tr>
@@ -246,12 +271,17 @@
                   <td data-label="Years of Experience">{{doctor.yoe}}</td>
                   <td data-label="Gender">{{doctor.gender}}</td>
                   <td data-label="Rating">{{doctor.rating}}</td>
+                  <td>
+                    <a href="{% url 'book_doctor_appointment' %}" style="text-decoration: none;">
+                      <button type="button" class="btn btn-primary appointment-btn liver {{forloop.counter }}">Book Appointment</button>
+                    </a>
+                  </td>    
                 </tr>
               {% endfor %}
             </tbody>
           </table>
         </div>
-        <div class="col-1"></div>
+        <div class="col"></div>
       </div>
       {% else %}
     {% endif %}
@@ -263,6 +293,73 @@
   <script>
     window.onload = function() {
       alert("Kindly make sure that you have taken all the possible predictive tests based on your latest lab tests reports.")
+    }
+
+    diseaseName = "";
+    tableEntry = 0;
+
+    let tables = document.querySelectorAll(".table");
+    let myTable = "";
+
+    let appointmentBtns = document.querySelectorAll(".appointment-btn");
+    for(i = 0; i < appointmentBtns.length; i++) {
+      appointmentBtns[i].addEventListener('click', (e) => {
+
+        // Finding Disease Name
+        if(e.currentTarget.classList.contains("heart")) {
+          diseaseName = "Heart Disease";
+        } else if(e.currentTarget.classList.contains("diabetes")) {
+          diseaseName = "Diabetes";
+        } else if(e.currentTarget.classList.contains("liver")) {
+          diseaseName = "Liver Disease";
+        }
+
+        // Finding Table Entry Number
+        if(e.currentTarget.classList.contains("1")) {
+          tableEntry = 0;
+        } else if(e.currentTarget.classList.contains("2")) {
+          tableEntry = 1;
+        } else if(e.currentTarget.classList.contains("3")) {
+          tableEntry = 2;
+        } else if(e.currentTarget.classList.contains("4")) {
+          tableEntry = 3;
+        } else if(e.currentTarget.classList.contains("5")) {
+          tableEntry = 4;
+        }
+
+        // Finding the table
+        if(diseaseName == "Heart Disease") {
+          myTable = tables[0];
+        } else if(diseaseName == "Diabetes") {
+          myTable = tables[1];
+        } else if(diseaseName == "Liver Disease") {
+          myTable = tables[2];
+        }
+
+        let allDataRows = myTable.querySelectorAll("tbody tr");
+        let myDataRow = allDataRows[tableEntry];
+
+        let myDataColumns = myDataRow.querySelectorAll("td");
+
+        // Finding Doctor Name
+        let doctorName = myDataColumns[0].innerText;
+
+        // Finding Doctor Address
+        let doctorAddress = myDataColumns[1].innerText;
+
+        // Finding Doctor Contact Number
+        let doctorContactNumber = myDataColumns[2].innerText;
+
+        // Finding Doctor Gender
+        let doctorGender = myDataColumns[4].innerText;
+
+        // Storing in local Storage
+        localStorage.setItem("Disease Name", diseaseName);
+        localStorage.setItem("Doctor Name", doctorName);
+        localStorage.setItem("Doctor Address", doctorAddress);
+        localStorage.setItem("Doctor Contact_Number", doctorContactNumber);
+        localStorage.setItem("Doctor Gender", doctorGender);
+      })
     }
   </script>
 </body>
