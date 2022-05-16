@@ -105,6 +105,9 @@
               Hi, &nbsp <b>{{user.username}}</b>
           </a>
         
+          <p>This is {{disease_name}} prediction test. This test predicts the possibility of you having the disease. Fill this form with parameters obtained from the laboratory tests. If you are unsure about the parameters, click <a href="{% url 'book_lab_test' %}">here</a> to book a home test and get information about them. </p>
+          <p><b>Note:</b> If the result comes out to be 'Detected', seek medical help immediately. Visit <a href="{% url 'consult_doctors' %}"> Consult Doctors </a> to consult with doctors. </p>
+
           <div class="form-container">
 
             <form method = "POST">
