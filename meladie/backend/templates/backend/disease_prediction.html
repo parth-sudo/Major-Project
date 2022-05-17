@@ -115,19 +115,15 @@
             
                 {{form.as_p}}
                 
-                  {% comment %} <a href="{% url 'prediction' %}" style="text-decoration: none; color:blue">
+                  <a href="{% url 'prediction' %}" style="text-decoration: none; color:blue">
                     <button type="submit" class="submit submit-btn"> 
                       Predict Disease
                     </button>
-                  </a> {% endcomment %}
+                  </a>
 
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <button class="btn btn-dark" type="submit">Predict</button>
-                 </div>
-
-                  <div class="result">
-                    {{answer}}
-                  </div>
+                 </div> -->
                   
               </form>
 
@@ -162,6 +158,10 @@
 
               </ul>
       
+            </div>
+
+            <div class="result">
+              {{answer}}
             </div>
 
 </body>

@@ -1,0 +1,246 @@
+{% extends "backend/base.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<style>
+
+    body{
+      margin: 0!important;
+      box-sizing: border-box;
+      background-color: #e3e1e95c;
+      width: 100vw;
+      height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .heading-container{
+        width: 100%;
+        height: 12%;
+        background-color: #9ba2cf82;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .heading-div{
+        height: 100%;
+        width: 75%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 2px;
+    }
+    
+    .home-icon-div{
+        width: 10%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .heading-text{
+        font-family: 'Arvo', serif;
+        font-size: 170%;
+    }
+
+    .home-img{
+        width: 30px;
+        height: 30px;
+    }
+
+    .user-name-container{
+        padding-top: 15px;
+        padding-right: 30px;
+        text-align: right;
+    }
+
+    .form-container{
+        width: 55%;
+        height: 120%;
+        box-shadow: 0px 0px 12px 0px black;
+        margin-left: 22.5%;
+        margin-top: 3%;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .item{
+        width: 75%;
+        height: 8%;
+        background-color: white;
+        border: 2px solid;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-weight: bold;
+        padding: 10px;
+        border-radius: 15px;
+    }
+
+    .form-item{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 75%;
+        height: 25%;
+    }
+
+    .sub-item{
+        width: 100%;
+        height: 32%;
+        background-color: white;
+        border-radius: 15px;
+        padding: 15px;
+        border: 2px solid;
+        font-weight: bold;
+    }
+
+    .text-item{
+        text-align: center;
+        width: 65%;
+        margin-left: 17.5%;
+        margin-top: 30px;
+        padding-bottom: 40px;
+    }
+
+    .user-name-display:hover{
+        font-weight: bold;
+    }
+
+    .home-icon-div:hover{
+        transform: scale(1.1);
+    }
+
+    button.item:hover{
+        transform: scale(1.04);
+        color: blue;
+    }
+
+    /* On screens that are less than 850px wide, make the sidebar into a topbar */
+    @media screen and (max-width: 850px) {
+        .form-container{
+            width: 80%;
+            margin-left: 10%;
+        }
+    }
+
+    /* On screens that are less than 450px, display the bar vertically, instead of horizontally */
+    @media screen and (max-width: 450px) {
+        .form-container{
+          margin-top: 7%;
+          width: 90%;
+          margin-left: 5%;
+        }
+
+        .item{
+            width: 90%;
+            height: 9.5%;
+        }
+
+        .form-item{
+            width: 90%;
+            height: 25%;
+        }
+
+        .sub-item{
+            height: 35%;
+        }
+
+        .text-item{
+            width: 85%;
+            margin-left: 7.5%;
+        }
+
+       
+    }
+
+</style>
+
+<body>
+    <div class="heading-container">
+        <div class="heading-div">
+            <h2 class="heading-text">BOOK &nbsp DOCTOR &nbsp APPOINTMENT</h2>
+        </div>
+        <div class="home-icon-div">
+            <a href="{% url 'home' %}">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Home_Icon.svg/2048px-Home_Icon.svg.png" class="home-img">
+            </a>
+        </div>
+    </div>
+
+    <div class="user-name-container">
+        <a href="{% url 'profile' %}" style="text-decoration: none; color: black;">
+          <div class="user-name-display">
+            Hi, {{user.username}}
+          </div>
+        </a>
+    </div>
+
+    {% if booked %}
+        <div class="text-item">
+            <b>
+                A Email with the appointment confirmation has been sent to <span style="color:blue"> {{user.email}} </span>, please check your inbox!
+            </b>
+        </div>
+    {% endif %}
+
+    <div class="form-container">
+        <div class="item disease-name"></div>
+        <div class="item doctor-name"></div>
+        <div class="item doctor-address"></div>
+        <div class="item doctor-contact"></div>
+        <div class="item doctor-gender"></div>
+        <form class="form-item" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input name="date" type="date" class="sub-item" required>
+            <select name="timeSlot" class="sub-item" required>
+                <option name="slot1" value="11AM-12PM">10AM - 11AM</option>
+                <option name="slot2" value="11AM-12PM">11AM - 12PM</option>
+                <option name="slot3" value="12PM - 1PM">12PM - 1PM</option>
+                <option name="slot4" value="12PM - 1PM">4PM - 5PM</option>
+                <option name="slot5" value="12PM - 1PM">5PM - 6PM</option>
+            </select>
+            <button type="submit" class="item">Book Appointment</button>
+        </form>
+      
+    </div>
+
+  
+    <script>
+
+        let diseaseNameDiv = document.querySelector(".disease-name");
+        let doctorNameDiv = document.querySelector(".doctor-name");
+        let doctorAddressDiv = document.querySelector(".doctor-address");
+        let doctorContactDiv = document.querySelector(".doctor-contact");
+        let doctorGenderDiv = document.querySelector(".doctor-gender");
+
+        let diseaseName = localStorage.getItem("Disease Name");
+        let doctorName = localStorage.getItem("Doctor Name");
+        let doctorAddress = localStorage.getItem("Doctor Address");
+        let doctorContact = localStorage.getItem("Doctor Contact_Number");
+        let doctorGender = localStorage.getItem("Doctor Gender");
+
+        let diseaseNameDiv_text = `Consulting The Doctor For : ${diseaseName}`;
+        let doctorNameDiv_text = `Doctor Name : ${doctorName}`;
+        let doctorAddressDiv_text = `Address : ${doctorAddress}`;
+        let doctorContactDiv_text = `Contact Number : ${doctorContact}`;
+        let doctorGenderDiv_text = `Gender Of Doctor : ${doctorGender}`;
+
+        diseaseNameDiv.innerText = diseaseNameDiv_text;
+        doctorNameDiv.innerText = doctorNameDiv_text;
+        doctorAddressDiv.innerText = doctorAddressDiv_text;
+        doctorContactDiv.innerText = doctorContactDiv_text;
+        doctorGenderDiv.innerText = doctorGenderDiv_text;
+
+    </script>
+</body>
+
+{% endblock %}

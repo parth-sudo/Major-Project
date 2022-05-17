@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, HeartPatientForm, DiabetesPatientForm, LiverPatientForm
 from django.contrib.auth.models import User
-from .models import Doctor, Profile, HeartPatient, DiabetesPatient, Disease, LiverPatient, BookLabTest
+from .models import BookDoctorAppointment, Doctor, Profile, HeartPatient, DiabetesPatient, Disease, LiverPatient, BookLabTest
 from .predictions import heart_disease, diabetes, liver_disease
 from django.core.mail import send_mail
 from django.conf import settings
@@ -342,3 +342,28 @@ def book_lab_test(request):
         return render(request, 'backend/book_lab_test.html', context)
 
     return render(request, 'backend/book_lab_test.html', {})
+
+def book_doctor_appointment(request, doctor_name):
+    context = {}
+    if request.method == "POST":
+        time_slot = request.POST.get('timeSlot')
+        date = request.POST.get('date')
+
+        doc = Doctor.objects.filter(full_name=doctor_name).first()
+        address = doc.address
+        contact = doc.contact
+        email_receiver = request.user.email
+        email_sender = settings.EMAIL_HOST_USER
+        # context = {'full_name':full_name,'test_name':test_name,'time_slot':time_slot,'email':email_receiver}
+        proof = BookDoctorAppointment.objects.create(user=request.user, time_slot=time_slot, date=date)
+     
+        msg = f"Dear {request.user.username}, your appointment with {doc.full_name} has been booked successfully. Reach the address- {address} sometime between {time_slot} on {date}. Contact {contact} in case of any issue."
+   
+        send_mail("Appointment Confirmation Email", msg, email_sender, [email_receiver])
+        
+        context['booked'] = proof
+
+        return render(request, 'backend/book_doctor_appointment.html', context)
+
+
+    return render(request,'backend/book_doctor_appointment.html',{'booked':""})

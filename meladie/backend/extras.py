@@ -43,4 +43,5 @@ liver_parameters_info = {
     "Bilirubin" : "It is the waste resulting from the breakdown of red blood cells that the liver filters out.",
     "Alkaline Phosphatase" : "It is an enzyme found in the body that is involved in several bodily processes.",
     "Alamine Aminotransferase" : "Another enzyme found in  the body.",
+    "Albumin" : "Albumin is a protein made by your liver. Albumin helps keep fluid in your bloodstream so it doesn't leak into other tissues.",
 }
