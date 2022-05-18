@@ -18,7 +18,8 @@
 </head>
 <body>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script type="text/javascript">
+
+  {% comment %} <script type="text/javascript">
     (function(d, m){
         var kommunicateSettings = 
             {"appId":"27d7cd10481ce1803bfffa929d5fd9516","popupWidget":true,"automaticChatOpenOnNavigation":true};
@@ -28,7 +29,7 @@
         window.kommunicate = m; m._globals = kommunicateSettings;
     })(document, window.kommunicate || {});
 /* NOTE : Use web server to view HTML files as real-time update will not work if you directly open the HTML file in the browser. */
-</script> 
+</script>  {% endcomment %}
   
         <div>
           {% block content %}{% endblock %}
