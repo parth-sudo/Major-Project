@@ -1,6 +1,7 @@
 {% extends "backend/base.html"%}
 {% load crispy_forms_tags %}
 {% block content %}
+{% load static %}
 
     <style>
 
@@ -75,14 +76,16 @@
       }
 
       .table{
-        margin-top: 15px;
+        margin-top: 20px;
+        border-radius: 20px;
+        box-shadow: 0px 0px 12px 0px black;
       }
 
       .home-img:hover{
         transform: scale(1.1);
       }
 
-      .user-name-display:hover{
+      .hover-bold:hover{
         font-weight: bold;
       }
 
@@ -122,7 +125,6 @@
     </style>
 
   <body>
-
     <div class="heading-container">
       <div class="heading-div">
         <h2 class="heading-text">CONSULT &nbsp DOCTORS</h2>
@@ -137,7 +139,7 @@
     <div class="user-name-container">
       <a href="{% url 'profile' %}" style="text-decoration: none; color: black;">
         <div class="user-name-display">
-          Hi, {{user.username}}
+          <span class="hover-bold"> Hi, {{user.username}} </span>
         </div>
       </a>
     </div>
@@ -289,8 +291,7 @@
     {% else %}
   {% endif %}
 
-
-  <script>
+   <script>
     window.onload = function() {
       alert("Kindly make sure that you have taken all the possible predictive tests based on your latest lab tests reports.")
     }
