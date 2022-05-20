@@ -17,7 +17,7 @@
     .heading-container{
         width: 100%;
         height: 12%;
-        background-color: #9ba2cf82;
+        background-color: #00F1DC;
         padding-top: 10px;
         padding-bottom: 10px;
         display: flex;
@@ -202,15 +202,13 @@
             {% csrf_token %}
             <input name="date" type="date" class="sub-item" required>
             <select name="timeSlot" class="sub-item" required>
-                <option name="slot1" value="11AM-12PM">10AM - 11AM</option>
-                <option name="slot2" value="11AM-12PM">11AM - 12PM</option>
-                <option name="slot3" value="12PM - 1PM">12PM - 1PM</option>
-                <option name="slot4" value="12PM - 1PM">4PM - 5PM</option>
-                <option name="slot5" value="12PM - 1PM">5PM - 6PM</option>
+                {% for slot in available_time_slots %}
+                <option name="s" value="{{slot}}">{{slot}}</option>
+                {% endfor %}
             </select>
             <button type="submit" class="item">Book Appointment</button>
         </form>
-      
+
     </div>
 
   

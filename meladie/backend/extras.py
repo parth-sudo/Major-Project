@@ -1,3 +1,6 @@
+import geocoder
+from geopy.geocoders import Nominatim
+
 GENDER_CHOICE = (
         ('Male', 'Male'),
         ('Female', 'Female'),
@@ -45,3 +48,14 @@ liver_parameters_info = {
     "Alamine Aminotransferase" : "Another enzyme found in  the body.",
     "Albumin" : "Albumin is a protein made by your liver. Albumin helps keep fluid in your bloodstream so it doesn't leak into other tissues.",
 }
+
+def get_city():
+    g = geocoder.ip('me')
+    latlngArr = g.latlng
+    Latitude = str(latlngArr[0])
+    Longitude = str(latlngArr[1])
+    geolocator = Nominatim(user_agent="geoapiExercises")
+    location = geolocator.reverse(Latitude+","+Longitude)
+    address = location.raw['address']
+    city = address.get('city', '')
+    return city

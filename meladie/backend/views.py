@@ -7,9 +7,11 @@ from .models import BookDoctorAppointment, Doctor, Profile, HeartPatient, Diabet
 from .predictions import heart_disease, diabetes, liver_disease
 from django.core.mail import send_mail
 from django.conf import settings
-from .extras import chest_pain_type, heart_parameters_info, diabetes_parameters_info, liver_parameters_info
+from .extras import heart_parameters_info, diabetes_parameters_info, liver_parameters_info, get_city
+
 
 def home(request):
+
     return render(request, 'backend/home.html', {})
 
 def register(request):
@@ -211,9 +213,12 @@ def consult_doctors(request):
     isDiabetesPatient = request.session.get('isDiabetesPatient', False)
     isLiverPatient = request.session.get('isLiverPatient', False)
 
-    heart_doctors = Doctor.objects.all().filter(specialization=1)
-    diabetes_doctors = Doctor.objects.all().filter(specialization=2)
-    liver_doctors = Doctor.objects.all().filter(specialization=3)
+    city = get_city()
+
+    heart_doctors = Doctor.objects.all().filter(specialization=1, city = city)
+    diabetes_doctors = Doctor.objects.all().filter(specialization=2, city = city)
+    liver_doctors = Doctor.objects.all().filter(specialization=3, city = city)
+    
 
     context = {
         'heartTestDone' : heartTestDone,
@@ -268,6 +273,7 @@ def analyze1(request, parameter):
         list = zip(temp[0], temp[1])
         context['list'] = list
         context['value'] = 'cholesterol'
+        context['heading'] = 'Cholesterol'
         test_taken = True
     elif parameter == "maxHeartRateAchieved":
         temp = foo(heart_array, 'maximum_heart_rate_achieved')
@@ -275,6 +281,7 @@ def analyze1(request, parameter):
         context['date_array'] = temp[1]
         context['list'] = zip(temp[0], temp[1])
         context['value'] = 'maximum_heart_rate_achieved'
+        context['heading'] = 'Maximum Heart Rate Achieved'
         test_taken = True
     elif parameter == "glucose":
         temp = foo(diabetes_array, 'glucose')
@@ -282,6 +289,7 @@ def analyze1(request, parameter):
         context['date_array'] = temp[1]
         context['list'] = zip(temp[0], temp[1]) 
         context['value'] = 'glucose'
+        context['heading'] = 'Glucose'
         test_taken = True
     elif parameter == "insulin":
         temp = foo(diabetes_array, 'insulin')
@@ -289,6 +297,7 @@ def analyze1(request, parameter):
         context['date_array'] = temp[1]
         context['list'] = zip(temp[0], temp[1])
         context['value'] = 'insulin'
+        context['heading'] = 'Insulin'
         test_taken = True
     elif parameter == "bilirubin":
         temp = foo(liver_array, 'bilirubin')
@@ -296,6 +305,7 @@ def analyze1(request, parameter):
         context['date_array'] = temp[1]
         context['list'] = zip(temp[0], temp[1])
         context['value'] = 'bilirubin'
+        context['heading'] = 'Total Bilirubin'
         test_taken = True
     elif parameter == "total_protiens":
         temp = foo(liver_array, 'total_protiens')
@@ -303,6 +313,7 @@ def analyze1(request, parameter):
         context['date_array'] = temp[1]
         context['list'] = zip(temp[0], temp[1])
         context['value'] = 'total_protiens'
+        context['heading'] = 'Total Protiens'
         test_taken = True
 
     context['test_taken'] = test_taken
@@ -345,6 +356,20 @@ def book_lab_test(request):
 
 def book_doctor_appointment(request, doctor_name):
     context = {}
+    # array of time strings (arrTS) = breakdown function.
+    # objectArr = used up time slots.
+    # 
+    doc = Doctor.objects.filter(full_name=doctor_name).first()
+    timeString = doc.availability
+    # actualTimeArr = convert(timeString)
+    dummyTimeArr = ["10AM-10:30AM","10:30AM-11AM","2PM:2:30PM"]
+    availability = []
+    for timeSlot in dummyTimeArr:
+        slot = BookDoctorAppointment.objects.filter(time_slot=timeSlot).first()
+        if slot == None:
+            availability.append(timeSlot)
+
+    context['available_time_slots'] = availability
     if request.method == "POST":
         time_slot = request.POST.get('timeSlot')
         date = request.POST.get('date')
@@ -365,5 +390,4 @@ def book_doctor_appointment(request, doctor_name):
 
         return render(request, 'backend/book_doctor_appointment.html', context)
 
-
-    return render(request,'backend/book_doctor_appointment.html',{'booked':""})
+    return render(request,'backend/book_doctor_appointment.html',context)

@@ -25,13 +25,15 @@ class Profile(models.Model):
         return self.user.username
 
 class Doctor(models.Model):
-    full_name = models.CharField(max_length=30, blank = False)
+    full_name = models.CharField(max_length=30, blank = False, unique=True)
     address = models.CharField(max_length=200)
+    city = models.CharField(max_length=50, default="Delhi")
     contact = models.CharField(max_length=14)
     yoe = models.IntegerField()
     gender = models.CharField(max_length=6)
     rating = models.CharField(max_length=5)
     specialization = models.ForeignKey(Disease, on_delete=models.CASCADE)
+    availability = models.CharField(max_length=20, default="10AM-3PM")
 
     def __str__(self):
         return self.full_name
