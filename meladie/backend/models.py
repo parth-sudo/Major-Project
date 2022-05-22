@@ -12,6 +12,7 @@ class Disease(models.Model):
     causes = models.TextField(default="causes.")
     vulnerable = models.TextField(default="vulnerable.")
     food_to_eat = models.TextField(default="green vegetables.") 
+    lifestyle_changes = models.TextField(default="Exercise and Meditate.")
 
     def __str__(self):
         return self.name
@@ -33,7 +34,7 @@ class Doctor(models.Model):
     gender = models.CharField(max_length=6)
     rating = models.CharField(max_length=5)
     specialization = models.ForeignKey(Disease, on_delete=models.CASCADE)
-    availability = models.CharField(max_length=20, default="10AM-3PM")
+    availability = models.CharField(max_length=20, default="10 A.M-11 A.M")
 
     def __str__(self):
         return self.full_name
@@ -45,10 +46,13 @@ class HeartPatient(models.Model):
     sex = models.CharField(max_length=6, choices=GENDER_CHOICE, default='Male')  
     chest_pain_type = models.CharField(max_length=20, choices = CHEST_PAIN_CHOICE, default='Typical Angina')
     resting_blood_pressure = models.CharField(max_length=3, blank = False)
-    cholesterol = models.CharField(max_length=4, blank = False)
+    serum_cholesterol = models.CharField(max_length=4, blank = False)
     fasting_blood_sugar_greater_than_120 = models.CharField(max_length=10, choices=[('True', 'True'), ('False', 'False')], default='False')
-    maximum_heart_rate_achieved = models.CharField(max_length=4)
+    resting_electrocardiographic_results = models.CharField(max_length=20, choices = [('Normal', 'Normal'), ('Having ST-T','Having ST-T'), ('Hypertrophy','Hypertrophy')], default="Normal")
     exercise_induced_angina = models.CharField(max_length=10, choices=[('True', 'True'), ('False', 'False')], default='False')
+    old_peak = models.CharField(max_length=5, default="1.1")
+    slope = models.CharField(max_length=5, default="2")
+    number_of_major_vessels_coloured_by_flouroscopy = models.CharField(max_length=1, default="2")
     date = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
@@ -95,8 +99,9 @@ class BookLabTest(models.Model):
 
 class BookDoctorAppointment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    time_slot = models.CharField(max_length=20, default='10AM - 11AM')
+    time_slot = models.CharField(max_length=20, default='10.AM')
     date = models.DateField()
+    time_of_creation = models.DateTimeField(null = False, blank = False, auto_now_add=True)
 
     def __str__(self):
         return self.user.username

@@ -111,7 +111,7 @@
         padding-bottom: 40px;
     }
 
-    .user-name-display:hover{
+    .hover-bold:hover{
         font-weight: bold;
     }
 
@@ -179,7 +179,7 @@
     <div class="user-name-container">
         <a href="{% url 'profile' %}" style="text-decoration: none; color: black;">
           <div class="user-name-display">
-            Hi, {{user.username}}
+              <span class="hover-bold"> Hi, {{user.username}} </span>
           </div>
         </a>
     </div>

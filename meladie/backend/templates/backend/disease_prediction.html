@@ -4,20 +4,44 @@
 {% block content %}
 
 <style>
+
+  body{
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+    margin: 0!important;
+    overflow-x: hidden;
+    background-color: #e3e1e95c;
+  }
+
   .color-blue{
     background-color: #00F1DC !important;
   }
 
+  .user-name-container{
+    width: 100vw;
+    height: 8vh;
+  }
+
   .user-name{
     float: right; 
-    margin-right: 20px; 
+    padding-right: 30px; 
     font-size: 120%;
+  }
+
+  .general-info{
+    width: 90vw;
+    height: 14vh;
+    padding: 15px;
+    text-align: center;
+    margin-left: 4vw;
+    margin-top: 15px;
   }
 
   .form-container{
     margin: auto;
     width: 50vw;
-    height: 82vh;
+    height: 90vh;
     margin-top: 5vh;
     padding: 4vw;
     display: flex;
@@ -31,17 +55,29 @@
     margin-left: 25%;
   }
 
-  .result{
-    width: 70%;
-    margin-left: 15%;
-    color: blue;
-    font-family: 'Mukta', sans-serif;
-    margin-top: 10px;
+  .parameter-info-div{
+    width: 70vw;
+    height: 55vh;
+    padding: 25px;
+    margin-left: 15vw;
+    margin-top: 40px;
   }
 
-  .target-disease{
-    color: white;
-    font-weight: bold;
+  .parameter-info-heading{
+    text-align: center;
+    margin-bottom: 25px;
+    font-family: 'Arvo', 'serif';
+  }
+
+  .result{
+    width: 60%;
+    margin-left: 20%;
+    font-family: 'Mukta', sans-serif;
+    margin-top: 30px;
+    /* border: 2px solid black; */
+    border-radius: 5px;
+    text-align: center;
+    color: blue;
   }
 
   @media (max-width: 770px) {
@@ -49,16 +85,48 @@
       margin-right: 10px;
       font-weight: 70%;
     }
+
     .form-container{
       height: 82vh;
       margin-top: 6vh;
       width: 75vw;
       padding: 4vw;
     }
+
     .submit-btn{
       width: 60%;
       margin-left: 20%;
     }
+  }
+
+  @media (max-width: 450px) {
+    .general-info{
+      width: 90%;
+      height: 22%;
+      margin-left: 5%;
+    }
+
+    .form-container{
+      width: 80%;
+      margin-left: 10%;
+    }
+
+    .parameter-info-div{
+      width: 90%;
+      margin-left: 5%;
+      height: 72%;
+    }
+
+    .parameter-info-heading{
+      font-size: 110%;
+    }
+
+    .result{
+      width: 80%;
+      margin-left: 10%;
+    }
+    
+
   }
 
   .nav-disaese-name:hover{
@@ -96,20 +164,24 @@
     </div>
   </nav>
 
-          
-          <!-- <div class = "user-name-display">
-            <h5> Hi &nbsp {{user_profile.user.username}}!! </h5>
-          </div> -->
-
-          <a class="nav-link nav-disaese-name user-name" href="{% url 'profile' %}" style="text-decoration: none; color:black;">
+          <div class="user-name-container">
+            <a class="nav-link nav-disaese-name user-name" href="{% url 'profile' %}" style="text-decoration: none; color:black;">
               Hi, &nbsp <b>{{user.username}}</b>
-          </a>
-        
-          <p>This is {{disease_name}} prediction test. This test predicts the possibility of you having the disease. Fill this form with parameters obtained from the laboratory tests. If you are unsure about the parameters, click <a href="{% url 'book_lab_test' %}">here</a> to book a home test and get information about them. </p>
-          <p><b>Note:</b> If the result comes out to be 'Detected', seek medical help immediately. Visit <a href="{% url 'consult_doctors' %}"> Consult Doctors </a> to consult with doctors. </p>
+            </a>
+          </div>
+          
+          <div class="general-info">
+            This is <b> {{disease_name}} </b> prediction test. 
+            This test predicts the possibility of you having the disease. 
+            If you are unsure about the parameters, click 
+            <a href="{% url 'book_lab_test' %}" style="text-decoration: none; color:blue">
+              here
+            </a> 
+            to book a home test and get information about them.
+          </div>
 
           <div class="form-container">
-
+ 
             <form method = "POST">
                 {% csrf_token %}
             
@@ -120,48 +192,42 @@
                       Predict Disease
                     </button>
                   </a>
-
-                  <!-- <div class="form-group">
-                    <button class="btn btn-dark" type="submit">Predict</button>
-                 </div> -->
                   
               </form>
-
-              <div>
-
-                {% if answer %}
-                  <a href="{% url 'consult_doctors' %}"> <button class="btn btn-primary"> Consult Doctors?  </button> </a>
-                {% endif %}
-
-              </div>
             </div>
             
-            {% if disease_name == "Heart Disease" %}
-            {% comment %} <h6>Chest pain type:</h6> {% endcomment %}
-            <div>
-              <ul>
+            <div class="result">
+              {{answer}}
+            </div>
+
+            <div class="parameter-info-div">
+              <h5 class="parameter-info-heading"> 
+                <u>
+                  FORM &nbsp PARAMETER &nbsp INFORMATION
+                </u> 
+              </h5>
+                  
+              {% if disease_name == "Heart Disease" %}
+              <h6> Chest pain type :- </h6>
+              <ul type="square">
 
                 {% for key,value in chest_pain_type.items %}
                   <li> <b>{{key}}</b> - {{value}} </li>
                 {% endfor %}
 
               </ul>
-            </div>
-            {% endif %}
 
-            <div>
-              <ul>
-
-                {% for key, value in parameters_info.items %}
-                  <li> <b>{{key}}</b> - {{value}} </li>
-                {% endfor %}
-
-              </ul>
-      
-            </div>
-
-            <div class="result">
-              {{answer}}
+              {% endif %}
+              <div style="margin-top: 30px;">
+                <ul>
+  
+                  {% for key, value in parameters_info.items %}
+                    <li> <b>{{key}}</b> - {{value}} </li>
+                  {% endfor %}
+  
+                </ul>
+        
+              </div>
             </div>
 
 </body>
