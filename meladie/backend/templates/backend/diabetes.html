@@ -17,7 +17,7 @@
     h3,
     h4,
     h5 {
-      font-family: "Raleway", sans-serif;
+      font-family: 'Arvo', serif;
     }
     /* .center {
         margin: auto;
@@ -69,6 +69,14 @@
       <p>{{diabetes.vulnerable}}</p>
       <p>{{diabetes.food_to_eat}}</p>
     </div> -->
+  </div>
+
+  <div class="user-name-container">
+    <a href="{% url 'profile' %}" style="text-decoration: none; color: black;">
+      <div class="user-name-display">
+        <span class="hover-bold"> Hi, {{user.username}} </span>
+      </div>
+    </a>
   </div>
 
   <div class="w3-content" style="max-width: 1400px">

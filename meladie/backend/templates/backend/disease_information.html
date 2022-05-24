@@ -17,8 +17,26 @@
     h3,
     h4,
     h5 {
-      font-family: "Raleway", sans-serif;
+      font-family: 'Arvo', serif;
     }
+    .user-name-container{
+        padding-top: 15px;
+        padding-right: 30px;
+        text-align: right;
+      }
+      .hover-bold:hover{
+        font-weight: bold;
+      }
+      .navbar{
+        background-color: #9ba2cfb0 ;
+      }
+      .nav-link{
+        color: black !important;
+      }
+      .navbar-brand{
+        color: black !important;
+      }
+      
       /* .center {
         margin: auto;
         width: 90%;
@@ -34,7 +52,7 @@
 
 <body class="w3-light-grey">
   <div class="main">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark">
       <a class="navbar-brand" href="{% url 'home' %}">Maladie Prediction</a>
       <button
         class="navbar-toggler"
@@ -72,6 +90,14 @@
       <p>{{heart.vulnerable}}</p>
       <p>{{heart.food_to_eat}}</p>
     </div> -->
+  </div>
+
+  <div class="user-name-container">
+    <a href="{% url 'profile' %}" style="text-decoration: none; color: black;">
+      <div class="user-name-display">
+        <span class="hover-bold"> Hi, {{user.username}} </span>
+      </div>
+    </a>
   </div>
 
   <div class="w3-content" style="max-width: 1400px">
