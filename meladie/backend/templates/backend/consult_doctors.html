@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Consult Doctors</title>
 
     <style>
     
@@ -103,10 +103,16 @@
       BASED ON THE RESULTS OF PREDICTIVE TESTS, WE SUGGEST YOU DOCTORS FOR THE
       BELOW MENTIONED DISEASES
     </h1>
-    <table>
-      <caption>
-        Heart Disease
-      </caption>
+
+      {% if heartTestDone %}
+
+      {% if isHeartPatient %}
+
+      <table>
+        <caption>
+          Heart Disease
+        </caption>
+    
       <thead>
         <tr>
           <th scope="col">Doctor Name</th>
@@ -119,45 +125,41 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td data-label="Doctor Name">Dr.Batra</td>
-          <td data-label="Address">145/B Sector 15, Faridabad</td>
-          <td data-label="Contact Number">9898765882</td>
-          <td data-label="Years of Experience">11</td>
-          <td data-label="Gender">Male</td>
-          <td data-label="Rating">9.3/10</td>
-        </tr>
-        <tr>
-            <td data-label="Doctor Name">Dr.Batra</td>
-            <td data-label="Address">145/B Sector 15, Faridabad</td>
-            <td data-label="Contact Number">9898765882</td>
-            <td data-label="Years of Experience">11</td>
-            <td data-label="Gender">Male</td>
-            <td data-label="Rating">9.3/10</td>
+        {% for doctor in heart_doctors %}
+           <tr>
+            <td data-label="Doctor Name">{{doctor.full_name}}</td>
+            <td data-label="Address">{{doctor.address}}</td>
+            <td data-label="Contact Number">{{doctor.contact}}</td>
+            <td data-label="Years of Experience">{{doctor.yoe}}</td>
+            <td data-label="Gender">{{doctor.gender}}</td>
+            <td data-label="Rating">{{doctor.rating}}</td>
           </tr>
-          <tr>
-            <td data-label="Doctor Name">Dr.Batra</td>
-            <td data-label="Address">145/B Sector 15, Faridabad</td>
-            <td data-label="Contact Number">9898765882</td>
-            <td data-label="Years of Experience">11</td>
-            <td data-label="Gender">Male</td>
-            <td data-label="Rating">9.3/10</td>
-          </tr>
-          <tr>
-            <td data-label="Doctor Name">Dr.Batra</td>
-            <td data-label="Address">145/B Sector 15, Faridabad</td>
-            <td data-label="Contact Number">9898765882</td>
-            <td data-label="Years of Experience">11</td>
-            <td data-label="Gender">Male</td>
-            <td data-label="Rating">9.3/10</td>
-          </tr>
+        {% endfor %}
       </tbody>
+
+      {% else %}
+
+      <h2> Wow, your statistics are quite impressive! You don't need a heart disease doctor at the moment. </h2>
+
+      {% endif %}
+
+    {% else %}
+
+    <h2> You haven't taken any test yet. Click <a href="{% url 'prediction' %}"> here </a> to take one. </h2>
+
+    {% endif %}
+
     </table>
 
-    <table>
-        <caption>
-          Liver Disease
-        </caption>
+        {% if diabetesTestDone %}
+
+        {% if isdiabetesPatient %}
+
+        <table>
+          <caption>
+            Diabetes
+          </caption>
+
         <thead>
           <tr>
             <th scope="col">Doctor Name</th>
@@ -170,45 +172,42 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td data-label="Doctor Name">Dr.Batra</td>
-            <td data-label="Address">145/B Sector 15, Faridabad</td>
-            <td data-label="Contact Number">9898765882</td>
-            <td data-label="Years of Experience">11</td>
-            <td data-label="Gender">Male</td>
-            <td data-label="Rating">9.3/10</td>
+            
+          {% for doctor in diabetes_doctors %}
+            <tr>
+            <td data-label="Doctor Name">{{doctor.full_name}}</td>
+            <td data-label="Address">{{doctor.address}}</td>
+            <td data-label="Contact Number">{{doctor.contact}}</td>
+            <td data-label="Years of Experience">{{doctor.yoe}}</td>
+            <td data-label="Gender">{{doctor.gender}}</td>
+            <td data-label="Rating">{{doctor.rating}}</td>
           </tr>
-          <tr>
-              <td data-label="Doctor Name">Dr.Batra</td>
-              <td data-label="Address">145/B Sector 15, Faridabad</td>
-              <td data-label="Contact Number">9898765882</td>
-              <td data-label="Years of Experience">11</td>
-              <td data-label="Gender">Male</td>
-              <td data-label="Rating">9.3/10</td>
-            </tr>
-            <tr>
-              <td data-label="Doctor Name">Dr.Batra</td>
-              <td data-label="Address">145/B Sector 15, Faridabad</td>
-              <td data-label="Contact Number">9898765882</td>
-              <td data-label="Years of Experience">11</td>
-              <td data-label="Gender">Male</td>
-              <td data-label="Rating">9.3/10</td>
-            </tr>
-            <tr>
-              <td data-label="Doctor Name">Dr.Batra</td>
-              <td data-label="Address">145/B Sector 15, Faridabad</td>
-              <td data-label="Contact Number">9898765882</td>
-              <td data-label="Years of Experience">11</td>
-              <td data-label="Gender">Male</td>
-              <td data-label="Rating">9.3/10</td>
-            </tr>
+        {% endfor %}
         </tbody>
+
+        {% else %}
+
+      <h2> Wow, your statistics are quite impressive! You don't need a doctor at the moment. </h2>
+
+      {% endif %}
+
+      {% else %}
+
+      <h2> You haven't taken any test yet. Click <a href="{% url 'diabetes_prediction' %}"> here </a> to take one. </h2>
+
+      {% endif %}
+
       </table>
 
-      <table>
-        <caption>
-          Diabetes
-        </caption>
+        {% if liverTestDone %}
+
+        {% if isLiverPatient %}
+
+        <table>
+          <caption>
+            Liver Disease
+          </caption>
+
         <thead>
           <tr>
             <th scope="col">Doctor Name</th>
@@ -221,39 +220,30 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td data-label="Doctor Name">Dr.Batra</td>
-            <td data-label="Address">145/B Sector 15, Faridabad</td>
-            <td data-label="Contact Number">9898765882</td>
-            <td data-label="Years of Experience">11</td>
-            <td data-label="Gender">Male</td>
-            <td data-label="Rating">9.3/10</td>
-          </tr>
-          <tr>
-              <td data-label="Doctor Name">Dr.Batra</td>
-              <td data-label="Address">145/B Sector 15, Faridabad</td>
-              <td data-label="Contact Number">9898765882</td>
-              <td data-label="Years of Experience">11</td>
-              <td data-label="Gender">Male</td>
-              <td data-label="Rating">9.3/10</td>
-            </tr>
+          {% for doctor in liver_doctors %}
             <tr>
-              <td data-label="Doctor Name">Dr.Batra</td>
-              <td data-label="Address">145/B Sector 15, Faridabad</td>
-              <td data-label="Contact Number">9898765882</td>
-              <td data-label="Years of Experience">11</td>
-              <td data-label="Gender">Male</td>
-              <td data-label="Rating">9.3/10</td>
-            </tr>
-            <tr>
-              <td data-label="Doctor Name">Dr.Batra</td>
-              <td data-label="Address">145/B Sector 15, Faridabad</td>
-              <td data-label="Contact Number">9898765882</td>
-              <td data-label="Years of Experience">11</td>
-              <td data-label="Gender">Male</td>
-              <td data-label="Rating">9.3/10</td>
-            </tr>
+              <td data-label="Doctor Name">{{doctor.full_name}}</td>
+              <td data-label="Address">{{doctor.address}}</td>
+              <td data-label="Contact Number">{{doctor.contact}}</td>
+              <td data-label="Years of Experience">{{doctor.yoe}}</td>
+              <td data-label="Gender">{{doctor.gender}}</td>
+              <td data-label="Rating">{{doctor.rating}}</td>
+           </tr>
+        {% endfor %}
         </tbody>
+
+        {% else %}
+
+        <h2> Wow, your statistics are quite impressive! You don't need a doctor at the moment. </h2>
+  
+        {% endif %}
+  
+        {% else %}
+  
+        <h2> You haven't taken any test yet. Click <a href="{% url 'liver_prediction' %}"> here </a> to take one. </h2>
+  
+        {% endif %}
+
       </table>
   </body>
 </html>
