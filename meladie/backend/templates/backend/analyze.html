@@ -5,7 +5,6 @@
 
 {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'backend/analyze.css' %}"> {% endcomment %}
 
-
 <style>
   body{
     box-sizing: border-box;
@@ -14,7 +13,6 @@
     width: 100vw;
     margin: 0 !important;
     overflow-x: hidden;
-    overflow-x: auto;
   }
 
   .sidebar {
@@ -82,16 +80,14 @@
     border-radius: 10px;
     margin-left: 40%;
     margin-top: 2.5%;
-    /* background-color: ; */
   }
 
   #chart-container{
     display: none;
-    width: 40%;
-    margin-left: 30%;
-    height: 40%;
-    /* border: 3px solid black; */
-    margin-top: 2%;
+    width: 65%;
+    margin-left: 15%;
+    height: 70%;
+    margin-top: 3.5%;
     margin-bottom: 5%;
     overflow-x: hidden;
     padding: 2%;
@@ -139,19 +135,33 @@
 
   <!-- The sidebar -->
   <div class="sidebar">
-    <a href="{% url 'analyze' 'cholesterol' %}"> Cholestrol </a>
-    <a href="{% url 'analyze' 'maxHeartRateAchieved' %}"> Max. Heart Rate Achieved </a>
-    <a href="{% url 'analyze' 'glucose' %}"> Glucose </a>
-    <a href="{% url 'analyze' 'insulin' %}"> Insulin </a>
-    <a href="{% url 'analyze' 'bilirubin' %}"> Bilirubin </a>
-    <a href="{% url 'analyze' 'total_protiens' %}"> Total Proteins </a>
-    <a href="{% url 'home' %}"> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Home_Icon.svg/2048px-Home_Icon.svg.png" class="home-img"> </a>
+    <a href="{% url 'analyze' 'cholesterol' %}"> 
+      Cholestrol 
+    </a>
+    <a href="{% url 'analyze' 'maxHeartRateAchieved' %}"> 
+      Max. Heart Rate Achieved 
+    </a>
+    <a href="{% url 'analyze' 'glucose' %}"> 
+      Glucose 
+    </a>
+    <a href="{% url 'analyze' 'insulin' %}">
+      Insulin 
+    </a>
+    <a href="{% url 'analyze' 'bilirubin' %}"> 
+      Bilirubin 
+    </a>
+    <a href="{% url 'analyze' 'total_protiens' %}"> 
+      Total Proteins 
+    </a>
+    <a href="{% url 'home' %}"> 
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Home_Icon.svg/2048px-Home_Icon.svg.png" class="home-img"> 
+    </a>
 
   </div>
 
   <!-- Page content -->
   <div class="content">  
-    <h3>{{value}}</h3> 
+    <h3> {{value}} </h3> 
     <!-- TABLE -->
     {% if list %}
     <table class="table">
@@ -175,7 +185,7 @@
       </tbody>
     </table>
 
-    <button class="show-chart-btn">Analyze Using Charts</button>
+    <button class="show-chart-btn">Show Charts</button>
 
     <div id="chart-container">
       <canvas id="line-chart"></canvas>
@@ -183,7 +193,7 @@
 
     {% else %}
 
-    <h2> It looks like haven't take the test of the disease which includes this parameter. </h2>
+    <h2> It looks like you haven't take the test of the disease which includes this parameter. </h2>
 
     {% endif %}
   </div>

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 import datetime, pytz
 from django.utils import timezone
+from .extras import GENDER_CHOICE, CHEST_PAIN_CHOICE, TEST_CHOICES, TIME_SLOTS
 
 # Create your models here.
 class Disease(models.Model):
@@ -15,21 +16,6 @@ class Disease(models.Model):
     def __str__(self):
         return self.name
 
-
-TEST_CHOICES = (
-        ('Basic Metabolic Panel', 'Basic Metabolic Panel'),
-        ('Comprehensive Metabolic Panel', 'Comprehensive Metabolic Panel'),
-        ('Lipid Panel', 'Lipid Panel'),
-        ('Thyroid Panel', 'Thyroid Panel'),
-)
-
-TIME_SLOTS = [
-    ['10AM - 11AM', '10AM - 11AM'],
-    ['12PM - 1PM', '12PM - 1PM'],
-    ['4PM - 5PM', '4PM - 5PM'],
-    ['5PM - 6PM', '5PM - 6PM'],
-    ['6:30PM - 7:30PM', '6:30PM - 7:30PM'],
-]
 
 class Profile(models.Model):
     user=models.OneToOneField(User, on_delete=models.CASCADE)
@@ -50,17 +36,6 @@ class Doctor(models.Model):
     def __str__(self):
         return self.full_name
 
-GENDER_CHOICE = (
-        ('Male', 'Male'),
-        ('Female', 'Female'),
-)
-
-CHEST_PAIN_CHOICE = (
-      ('Typical Angina', 'Typical Angina'),
-      ('Atypical Angina', 'Atypical Angina'),
-      ('Non-Anginal Pain', 'Non-Anginal Pain'),
-      ('Asymptomatic', 'Asymptomatic'),
-)
 
 class HeartPatient(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -69,7 +44,7 @@ class HeartPatient(models.Model):
     chest_pain_type = models.CharField(max_length=20, choices = CHEST_PAIN_CHOICE, default='Typical Angina')
     resting_blood_pressure = models.CharField(max_length=3, blank = False)
     cholesterol = models.CharField(max_length=4, blank = False)
-    fasting_blood_sugar = models.CharField(max_length=10, choices=[('True', 'True'), ('False', 'False')])
+    fasting_blood_sugar_greater_than_120 = models.CharField(max_length=10, choices=[('True', 'True'), ('False', 'False')])
     maximum_heart_rate_achieved = models.CharField(max_length=4)
     exercise_induced_angina = models.CharField(max_length=10, choices=[('True', 'True'), ('False', 'False')])
     date = models.DateTimeField(auto_now_add=True)
