@@ -22,7 +22,7 @@ urlpatterns = [
 
     path('analyze/<str:parameter>/', views.analyze1, name='analyze'),
     path('bookLabTests', views.book_lab_test, name = 'book_lab_test'),
-    path('book_doctor_appointment/', views.book_doctor_appointment, name = 'book_doctor_appointment'),
+    path('book_doctor_appointment/<str:doctor_name>/', views.book_doctor_appointment, name = 'book_doctor_appointment'),
 ]   
 
 if settings.DEBUG:

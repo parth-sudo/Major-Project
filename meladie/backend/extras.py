@@ -1,3 +1,7 @@
+import geocoder
+from geopy.geocoders import Nominatim
+import time
+
 GENDER_CHOICE = (
         ('Male', 'Male'),
         ('Female', 'Female'),
@@ -46,7 +50,18 @@ liver_parameters_info = {
     "Albumin" : "Albumin is a protein made by your liver. Albumin helps keep fluid in your bloodstream so it doesn't leak into other tissues.",
 }
 
-def slotSplit(startTime, endTime) :
+def get_city():
+    g = geocoder.ip('me')
+    latlngArr = g.latlng
+    Latitude = str(latlngArr[0])
+    Longitude = str(latlngArr[1])
+    geolocator = Nominatim(user_agent="geoapiExercises")
+    location = geolocator.reverse(Latitude+","+Longitude)
+    address = location.raw['address']
+    city = address.get('city', '')
+    return city
+
+def slot_split(startTime, endTime) :
     allTimeSlots = [ "8 A.M", "8:30 A.M", "9 A.M", "9:30 A.M", "10 A.M", 
         "10:30 A.M", "11 A.M", "11:30 A.M", "12 P.M", "12:30 P.M", "1 P.M", 
         "1:30 P.M", "2 P.M", "2:30 P.M", "3 P.M", "3:30 P.M", "4 P.M", "4:30 P.M", 
@@ -66,3 +81,6 @@ def slotSplit(startTime, endTime) :
         result.append(slot)
     
     return result
+
+def current_milli_time():
+    return round(time.time())

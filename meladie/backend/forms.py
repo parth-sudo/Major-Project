@@ -19,8 +19,9 @@ class HeartPatientForm(forms.ModelForm):
         model = HeartPatient
         # fields = '__all__'
         fields = ['age', 'sex', 'chest_pain_type', 
-                'resting_blood_pressure', 'cholesterol', 
-                'fasting_blood_sugar_greater_than_120', 'maximum_heart_rate_achieved', 'exercise_induced_angina']
+                'resting_blood_pressure', 'serum_cholesterol', 
+                'fasting_blood_sugar_greater_than_120', 'resting_electrocardiographic_results', 
+                'exercise_induced_angina', 'old_peak', 'slope', 'number_of_major_vessels_coloured_by_flouroscopy']
 
         widgets = {
             'user': TextInput(attrs={'readonly': 'readonly'})

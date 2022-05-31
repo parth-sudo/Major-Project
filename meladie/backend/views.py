@@ -3,13 +3,32 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, HeartPatientForm, DiabetesPatientForm, LiverPatientForm
 from django.contrib.auth.models import User
-from .models import Doctor, Profile, HeartPatient, DiabetesPatient, Disease, LiverPatient, BookLabTest
+from .models import BookDoctorAppointment, Doctor, Profile, HeartPatient, DiabetesPatient, Disease, LiverPatient, BookLabTest
 from .predictions import heart_disease, diabetes, liver_disease
 from django.core.mail import send_mail
 from django.conf import settings
-from .extras import chest_pain_type, heart_parameters_info, diabetes_parameters_info, liver_parameters_info
+from .extras import current_milli_time, heart_parameters_info, diabetes_parameters_info, liver_parameters_info, get_city, slot_split
+import datetime
 
 def home(request):
+
+    appointments = BookDoctorAppointment.objects.all()
+    today = str(datetime.date.today())
+    day = today.split('-')[2]
+    day_today = int(day)
+
+    oldAppointments = []
+    for app in appointments:
+        date = str(app.time_of_creation)
+        date_of_creation = date.split(' ')[0]
+        day_of_creation = int(date_of_creation.split('-')[2])
+
+        if day_today - day_of_creation >= 1:
+            oldAppointments.append(app)
+    
+    for app in oldAppointments:
+        BookDoctorAppointment.objects.filter(time_of_creation=app.time_of_creation).delete()
+
     return render(request, 'backend/home.html', {})
 
 def register(request):
@@ -50,12 +69,15 @@ def heart_disease_prediction(request):
             sex=form.cleaned_data.get('sex')
             chest_pain_type=form.cleaned_data.get('chest_pain_type')
             resting_blood_pressure=form.cleaned_data.get('resting_blood_pressure')
-            cholesterol=form.cleaned_data.get('cholesterol')
+            serum_cholesterol=form.cleaned_data.get('serum_cholesterol')
             fasting_blood_sugar = form.cleaned_data.get('fasting_blood_sugar_greater_than_120')
-            maximum_heart_rate_achieved = form.cleaned_data.get('maximum_heart_rate_achieved')
+            resting_electrocardiographic_results = form.cleaned_data.get('resting_electrocardiographic_results')
             exercise_induced_angina = form.cleaned_data.get('exercise_induced_angina')
+            old_peak=form.cleaned_data.get('old_peak')
+            slope = form.cleaned_data.get('slope')
+            number_of_major_vessels_coloured_by_flouroscopy = form.cleaned_data.get('number_of_major_vessels_coloured_by_flouroscopy')
 
-            result = heart_disease(age, sex, chest_pain_type, resting_blood_pressure, cholesterol, fasting_blood_sugar, maximum_heart_rate_achieved, exercise_induced_angina)
+            result = heart_disease(age, sex, chest_pain_type, resting_blood_pressure, serum_cholesterol, fasting_blood_sugar, resting_electrocardiographic_results, exercise_induced_angina, old_peak, slope, number_of_major_vessels_coloured_by_flouroscopy)
         
             request.session['isHeartPatient'] = True if result == 1 else False
 
@@ -175,20 +197,26 @@ def profile(request):
 
     user_profile = Profile.objects.filter(user = current_user)[0]
     heart_patient_array = HeartPatient.objects.all().filter(user=current_user)
+    liver_patient_array = LiverPatient.objects.all().filter(user=current_user)
+    diabetes_patient_array = DiabetesPatient.objects.all().filter(user=current_user)
 
-    cholesterol_array = []
-    blood_pressure_array = []
-    date_array = []
-    for record in heart_patient_array:
-        cholesterol_array.append(record.cholesterol)
-        blood_pressure_array.append(record.resting_blood_pressure)
-        date_array.append(record.date.date())
-        print(record.date.date())
+    count = 0
+    context['heart_test'] = ""
+    context['liver_test'] = ""
+    context['diabetes_test'] = ""
+    if heart_patient_array.exists():
+        context['heart_test'] = ' Heart Disease Prediction Test'
+        count += 1
+    if liver_patient_array.exists():
+        context['liver_test'] = ', Liver Disease Prediction Test'
+        count += 1
+    if diabetes_patient_array.exists():
+        context['diabetes_test'] = ', Diabetes Prediction Test'
+        count += 1
 
+    context['count'] = count
     context['user_profile'] = user_profile   
-    context['cholesterol_array'] = cholesterol_array
-    context['blood_pressure_array'] = blood_pressure_array 
-    context['date_array'] = date_array
+   
     
     return render(request, 'backend/profile.html', context)
 
@@ -211,9 +239,12 @@ def consult_doctors(request):
     isDiabetesPatient = request.session.get('isDiabetesPatient', False)
     isLiverPatient = request.session.get('isLiverPatient', False)
 
-    heart_doctors = Doctor.objects.all().filter(specialization=1)
-    diabetes_doctors = Doctor.objects.all().filter(specialization=2)
-    liver_doctors = Doctor.objects.all().filter(specialization=3)
+    city = get_city()
+
+    heart_doctors = Doctor.objects.all().filter(specialization=1, city = city)
+    diabetes_doctors = Doctor.objects.all().filter(specialization=2, city = city)
+    liver_doctors = Doctor.objects.all().filter(specialization=3, city = city)
+    
 
     context = {
         'heartTestDone' : heartTestDone,
@@ -242,10 +273,10 @@ def analyze1(request, parameter):
         x_arr = []
         date_array = []
         for record in arr:     
-            if x == "cholesterol":
-                x_arr.append(record.cholesterol)
-            elif x == "maximum_heart_rate_achieved":
-                x_arr.append(record.maximum_heart_rate_achieved)
+            if x == "serum_cholesterol":
+                x_arr.append(record.serum_cholesterol)
+            elif x == "resting_blood_pressure":
+                x_arr.append(record.resting_blood_pressure)
             elif x == "glucose":
                 x_arr.append(record.glucose)
             elif x == "insulin":
@@ -262,19 +293,21 @@ def analyze1(request, parameter):
     context = {}
     test_taken = False
     if parameter == "cholesterol":
-        temp = foo(heart_array, 'cholesterol')
+        temp = foo(heart_array, 'serum_cholesterol')
         context['value_array'] = temp[0]
         context['date_array'] = temp[1]
         list = zip(temp[0], temp[1])
         context['list'] = list
-        context['value'] = 'cholesterol'
+        context['value'] = 'serum_cholesterol'
+        context['heading'] = 'Serum Cholesterol'
         test_taken = True
-    elif parameter == "maxHeartRateAchieved":
-        temp = foo(heart_array, 'maximum_heart_rate_achieved')
+    elif parameter == "restingBloodPressure":
+        temp = foo(heart_array, 'resting_blood_pressure')
         context['value_array'] = temp[0]
         context['date_array'] = temp[1]
         context['list'] = zip(temp[0], temp[1])
-        context['value'] = 'maximum_heart_rate_achieved'
+        context['value'] = 'resting_blood_pressure'
+        context['heading'] = 'Resting Blood Pressure'
         test_taken = True
     elif parameter == "glucose":
         temp = foo(diabetes_array, 'glucose')
@@ -282,6 +315,7 @@ def analyze1(request, parameter):
         context['date_array'] = temp[1]
         context['list'] = zip(temp[0], temp[1]) 
         context['value'] = 'glucose'
+        context['heading'] = 'Glucose'
         test_taken = True
     elif parameter == "insulin":
         temp = foo(diabetes_array, 'insulin')
@@ -289,6 +323,7 @@ def analyze1(request, parameter):
         context['date_array'] = temp[1]
         context['list'] = zip(temp[0], temp[1])
         context['value'] = 'insulin'
+        context['heading'] = 'Insulin'
         test_taken = True
     elif parameter == "bilirubin":
         temp = foo(liver_array, 'bilirubin')
@@ -296,6 +331,7 @@ def analyze1(request, parameter):
         context['date_array'] = temp[1]
         context['list'] = zip(temp[0], temp[1])
         context['value'] = 'bilirubin'
+        context['heading'] = 'Total Bilirubin'
         test_taken = True
     elif parameter == "total_protiens":
         temp = foo(liver_array, 'total_protiens')
@@ -303,6 +339,7 @@ def analyze1(request, parameter):
         context['date_array'] = temp[1]
         context['list'] = zip(temp[0], temp[1])
         context['value'] = 'total_protiens'
+        context['heading'] = 'Total Protiens'
         test_taken = True
 
     context['test_taken'] = test_taken
@@ -343,5 +380,42 @@ def book_lab_test(request):
 
     return render(request, 'backend/book_lab_test.html', {})
 
-def book_doctor_appointment(request):
-    return render(request,'backend/book_doctor_appointment.html',{'title':'book_doctor_appointment'})
+def book_doctor_appointment(request, doctor_name):
+    context = {}
+    # array of time strings (arrTS) = breakdown function.
+    # objectArr = used up time slots.
+    # 
+    doc = Doctor.objects.filter(full_name=doctor_name).first()
+
+    timeStringArr = doc.availability.split('-')
+ 
+    actualTimeArr = slot_split(timeStringArr[0], timeStringArr[1])
+  
+    availability = []
+    for timeSlot in actualTimeArr:
+        slot = BookDoctorAppointment.objects.filter(time_slot=timeSlot).first()
+        if slot == None:
+            availability.append(timeSlot)
+
+    context['available_time_slots'] = availability
+    if request.method == "POST":
+        time_slot = request.POST.get('timeSlot')
+        date = request.POST.get('date')
+
+        doc = Doctor.objects.filter(full_name=doctor_name).first()
+        address = doc.address
+        contact = doc.contact
+        email_receiver = request.user.email
+        email_sender = settings.EMAIL_HOST_USER
+        # context = {'full_name':full_name,'test_name':test_name,'time_slot':time_slot,'email':email_receiver}
+        proof = BookDoctorAppointment.objects.create(user=request.user, time_slot=time_slot, date=date)
+     
+        msg = f"Dear {request.user.username}, your appointment with {doc.full_name} has been booked successfully. Reach the address- {address} sometime between {time_slot} on {date}. Contact {contact} in case of any issue."
+   
+        send_mail("Appointment Confirmation Email", msg, email_sender, [email_receiver])
+        
+        context['booked'] = proof
+
+        return render(request, 'backend/book_doctor_appointment.html', context)
+
+    return render(request,'backend/book_doctor_appointment.html',context)

@@ -5,30 +5,38 @@ from sklearn.metrics import accuracy_score
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression  
 
-def heart_disease(age, sex, chest_pain_type, resting_blood_pressure, cholesterol, fasting_blood_sugar, maximum_heart_rate_achieved, exercise_induced_angina):
+def heart_disease(age, sex, chest_pain_type, resting_blood_pressure, serum_cholesterol, fasting_blood_sugar, resting_electrocardiographic_results, exercise_induced_angina, old_peak, slope, number_of_major_vessels_coloured_by_flouroscopy):
     
     age = int(age)
     sex = 1 if sex == 'Male' else 0
-    dict = {'Typical Angina' : 1, 'Atypical Angina' : 2, 'Non-Anginal Pain' : 3, 'Asymptomatic' : 4}
+    dict = {'Typical Angina' : 1, 'Atypical Angina' : 2, 'Non-Anginal Pain' : 3, 'Asymptomatic' : 4, 'Normal' : 0, 'Having ST-T' : 1, 'Hypertrophy' : 2}
     chest_pain_type = dict[chest_pain_type]
     resting_blood_pressure = int(resting_blood_pressure)
-    cholesterol = int(cholesterol)
+    serum_cholesterol = int(serum_cholesterol)
     fasting_blood_sugar = 1 if fasting_blood_sugar == 'True' else 0
-    maximum_heart_rate_achieved = int(maximum_heart_rate_achieved)
+    resting_electrocardiographic_results = dict[resting_electrocardiographic_results]
     exercise_induced_angina = 1 if exercise_induced_angina == 'True' else 0
+    old_peak = float(old_peak)
+    slope = float(slope)
+    number_of_major_vessels_coloured_by_flouroscopy = int(number_of_major_vessels_coloured_by_flouroscopy)
 
-    parameters = (age, sex, chest_pain_type, resting_blood_pressure, cholesterol, fasting_blood_sugar, maximum_heart_rate_achieved, exercise_induced_angina)
-    
-    # heart_data = pd.read_csv("C:/Users/Admin/Downloads/heart_Data_2.csv")
-    heart_data = pd.read_csv("C:/Users/DELL/Desktop/MAJOR PROJECT DATA/heart_Data_2.csv")
-    
-    # Splitting the features and targets
-    X = heart_data.drop(columns = 'target', axis = 1)
-    Y = heart_data['target']
 
-    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.20, stratify = Y, random_state = 2)
+    parameters = (age, sex, chest_pain_type, resting_blood_pressure, serum_cholesterol, fasting_blood_sugar, resting_electrocardiographic_results, exercise_induced_angina, old_peak, slope, number_of_major_vessels_coloured_by_flouroscopy)
     
+    # heart_data = pd.read_csv("C:/Users/Admin/Downloads/heart_final.csv")
+    heart_data = pd.read_csv("C:/Users/DELL/Desktop/heart_final.csv")
+
+    # heart_data.head()
+
+    X = heart_data.drop(columns = 'Target', axis = 1)
+    Y = heart_data['Target']
+
+    # Splitting training data and test data
+
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.2, stratify = Y, random_state = 2)
+
     model = RandomForestClassifier()
+
     model.fit(X_train, Y_train)
 
     input_data = parameters   # It a tuple data type
@@ -40,10 +48,10 @@ def heart_disease(age, sex, chest_pain_type, resting_blood_pressure, cholesterol
     input_data_reshaped = input_data_as_numpy_array.reshape(1,-1)
 
     prediction = model.predict(input_data_reshaped)
+
     prediction = prediction.tolist()
     
-    return(prediction[0])
-
+    return (prediction[0])
 
 def diabetes(glucose, blood_pressure, insulin, body_mass_index, age):
     glucose = int(glucose)

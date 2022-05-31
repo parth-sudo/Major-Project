@@ -15,7 +15,7 @@
   }
 
   .color-blue{
-    background-color: #9ba2cf6b !important;
+    background-color: #9ba2cf87 !important;
   }
 
   .user-name-container{
@@ -40,8 +40,8 @@
 
   .form-container{
     margin: auto;
-    width: 50vw;
-    height: 90vh;
+    width: 60vw;
+    height: 120vh;
     margin-top: 5vh;
     padding: 4vw;
     display: flex;
@@ -99,6 +99,14 @@
     }
   }
 
+  @media (max-width: 600px) {
+    .form-container{
+      margin-top: 70px;
+      width: 78%;
+      height: 155vh;
+    }
+  }
+
   @media (max-width: 450px) {
     .general-info{
       width: 90%;
@@ -107,7 +115,8 @@
     }
 
     .form-container{
-      width: 80%;
+      width: 85%;
+      height: 130vh;
       margin-left: 10%;
     }
 
@@ -199,6 +208,8 @@
             <div class="result">
               {{answer}}
             </div>
+
+            
 
             <div class="parameter-info-div">
               <h5 class="parameter-info-heading"> 

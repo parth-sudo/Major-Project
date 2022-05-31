@@ -19,7 +19,7 @@
     margin: 0;
     padding: 0;
     width: 220px;
-    background-color: #9ba2cf7a;
+    background-color: #9ba2cf87;
     position: fixed;
     height: 100%;
     overflow: auto;
@@ -136,10 +136,10 @@
   <!-- The sidebar -->
   <div class="sidebar">
     <a href="{% url 'analyze' 'cholesterol' %}"> 
-      Cholestrol 
+      Serum Cholestrol 
     </a>
-    <a href="{% url 'analyze' 'maxHeartRateAchieved' %}"> 
-      Max. Heart Rate Achieved 
+    <a href="{% url 'analyze' 'restingBloodPressure' %}"> 
+      Resting Blood Pressure
     </a>
     <a href="{% url 'analyze' 'glucose' %}"> 
       Glucose 
@@ -161,7 +161,7 @@
 
   <!-- Page content -->
   <div class="content">  
-    <h3> {{value}} </h3> 
+    <h3>{{heading}}</h3> 
     <!-- TABLE -->
     {% if list %}
     <table class="table">
