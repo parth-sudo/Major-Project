@@ -15,7 +15,7 @@
   }
 
   .color-blue{
-    background-color: #00F1DC !important;
+    background-color: #9ba2cf87 !important;
   }
 
   .user-name-container{
@@ -40,8 +40,8 @@
 
   .form-container{
     margin: auto;
-    width: 50vw;
-    height: 90vh;
+    width: 60vw;
+    height: 115vh;
     margin-top: 5vh;
     padding: 4vw;
     display: flex;
@@ -69,6 +69,7 @@
     font-family: 'Arvo', 'serif';
   }
 
+
   .result{
     width: 60%;
     margin-left: 20%;
@@ -78,6 +79,42 @@
     border-radius: 5px;
     text-align: center;
     color: blue;
+    font-size: 140%;
+  }
+
+  .redirect-container{
+    width: 50%;
+    height: 24%;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 35px;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+  .redirect-container-item{
+    width: 100%;
+    background-color: cyan;
+  }
+
+  .redirect-container-item button{
+    width: 100%;
+    background-color: white!important;
+    border: none!important;
+    box-shadow: 0px 0px 10px 0px black;
+    color: black;
+    font-weight: bold;
+  }
+
+  .redirect-container-item button:hover{
+    transform: scale(1.05);
+    color: black!important;
+  }
+
+  .redirect-container-item button:active{
+    border: none!important;
+    color: black!important;
   }
 
   @media (max-width: 770px) {
@@ -99,6 +136,14 @@
     }
   }
 
+  @media (max-width: 600px) {
+    .form-container{
+      margin-top: 70px;
+      width: 78%;
+      height: 155vh;
+    }
+  }
+
   @media (max-width: 450px) {
     .general-info{
       width: 90%;
@@ -107,7 +152,8 @@
     }
 
     .form-container{
-      width: 80%;
+      width: 85%;
+      height: 130vh;
       margin-left: 10%;
     }
 
@@ -140,6 +186,27 @@
 </style>
 
 <body>
+    <div class="main">
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="{% url 'home' %}">Maladie Prediction</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+              <ul class="navbar-nav">
+                <li class="nav-item active">
+                  <a class="nav-link" href="{% url 'prediction' %}">{{heart.name}} <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'diabetes_prediction' %}">Disease 2</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Disease 3</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
 
   
 
@@ -195,15 +262,22 @@
                   
               </form>
 
-              {% if disease_detected %} 
-              <a href="{% url 'consult_doctors' %}"><button class="btn btn-primary"> Consult Doctors. </button></a> 
-             {% endif %}
-
             </div>
             
             <div class="result">
               {{answer}}
             </div>
+
+            {% if disease_detected %} 
+              <div class="redirect-container">
+                <a href="{% url 'disease_information' disease_naam %}" class="redirect-container-item">
+                  <button class="btn btn-primary"> Get Food and Lifestyle Changes </button>
+                </a>
+                <a href="{% url 'consult_doctors' %}" class="redirect-container-item">
+                  <button class="btn btn-primary"> Consult Doctors </button>
+                </a>
+                </div>     
+            {% endif %}
 
             <div class="parameter-info-div">
               <h5 class="parameter-info-heading"> 

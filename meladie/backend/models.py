@@ -50,9 +50,9 @@ class HeartPatient(models.Model):
     fasting_blood_sugar_greater_than_120 = models.CharField(max_length=10, choices=[('True', 'True'), ('False', 'False')], default='False')
     resting_electrocardiographic_results = models.CharField(max_length=20, choices = [('Normal', 'Normal'), ('Having ST-T','Having ST-T'), ('Hypertrophy','Hypertrophy')], default="Normal")
     exercise_induced_angina = models.CharField(max_length=10, choices=[('True', 'True'), ('False', 'False')], default='False')
-    old_peak = models.CharField(max_length=5, default="1.1")
-    slope = models.CharField(max_length=5, default="2")
-    number_of_major_vessels_coloured_by_flouroscopy = models.CharField(max_length=1, default="2")
+    old_peak = models.CharField(max_length=5, default="0")
+    slope = models.CharField(max_length=5, default="0")
+    number_of_major_vessels_coloured_by_flouroscopy = models.CharField(max_length=1, default="0")
     date = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):

@@ -85,6 +85,7 @@ def heart_disease_prediction(request):
             context['answer'] = answer
             context['disease_name'] = "Heart Disease"
             # context['chest_pain_type'] = chest_pain_type
+            context['disease_naam'] = "heart_disease"
             context['disease_detected'] = True if result == 1 else False
             return render(request, 'backend/disease_prediction.html', context)
     else:
@@ -122,6 +123,7 @@ def diabetes_prediction(request):
             context['answer'] = answer
             context['disease_detected'] = True if result == 1 else False
             context['disease_name'] = "Diabetes"
+            context['disease_naam'] = 'diabetes'
             return render(request, 'backend/disease_prediction.html', context)
     else:
         form = DiabetesPatientForm()
@@ -160,6 +162,7 @@ def liver_prediction(request):
             answer = "Liver Disease detected." if result == 1 else "No, you don't liver disease."
             context['answer'] = answer
             context['disease_name'] = "Liver Disease"
+            context['disease_naam'] = 'liver_disease'
             context['disease_detected'] = True if result == 1 else False
           
             return render(request, 'backend/disease_prediction.html', context)
@@ -210,10 +213,10 @@ def profile(request):
     context['liver_test'] = ""
     context['diabetes_test'] = ""
     if heart_patient_array.exists():
-        context['heart_test'] = ' Heart Disease(s) Prediction Test'
+        context['heart_test'] = ' Heart Disease Prediction Test'
         count += 1
     if liver_patient_array.exists():
-        context['liver_test'] = ', Liver Disease(s) Prediction Test'
+        context['liver_test'] = ', Liver Disease Prediction Test'
         count += 1
     if diabetes_patient_array.exists():
         context['diabetes_test'] = ', Diabetes Prediction Test'
