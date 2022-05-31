@@ -194,11 +194,18 @@
                   </a>
                   
               </form>
+
+              {% if disease_detected %} 
+              <a href="{% url 'consult_doctors' %}"><button class="btn btn-primary"> Consult Doctors. </button></a> 
+             {% endif %}
+
             </div>
             
             <div class="result">
               {{answer}}
             </div>
+
+         
 
             <div class="parameter-info-div">
               <h5 class="parameter-info-heading"> 
