@@ -90,12 +90,12 @@
         justify-content: space-evenly;
         align-items: center;
         width: 75%;
-        height: 25%;
+        height: 30%;
     }
 
     .sub-item{
         width: 100%;
-        height: 32%;
+        height: 27%;
         background-color: white;
         border-radius: 15px;
         padding: 15px;
@@ -111,6 +111,11 @@
         padding-bottom: 40px;
     }
 
+    .dummy-div{
+        width: 40vw;
+        height: 7vh;
+    }
+
     .hover-bold:hover{
         font-weight: bold;
     }
@@ -119,7 +124,7 @@
         transform: scale(1.1);
     }
 
-    button.item:hover{
+    button.sub-item:hover{
         transform: scale(1.04);
         color: blue;
     }
@@ -206,12 +211,12 @@
                 <option name="s" value="{{slot}}">{{slot}}</option>
                 {% endfor %}
             </select>
-            <button type="submit" class="item">Book Appointment</button>
+            <button type="submit" class="sub-item">Book Appointment</button>
         </form>
 
     </div>
 
-  
+    <div class="dummy-div"></div>
     <script>
 
         let diseaseNameDiv = document.querySelector(".disease-name");

@@ -85,11 +85,13 @@ def heart_disease_prediction(request):
             context['answer'] = answer
             context['disease_name'] = "Heart Disease"
             # context['chest_pain_type'] = chest_pain_type
+            context['disease_detected'] = True if result == 1 else False
             return render(request, 'backend/disease_prediction.html', context)
     else:
         form = HeartPatientForm()
         context['form'] = form
         context['answer'] = ""
+        context['disease_detected'] = False
         # context['chest_pain_type'] = chest_pain_type
     return render(request,'backend/disease_prediction.html', context)
 
@@ -105,7 +107,6 @@ def diabetes_prediction(request):
             profile = form.save(commit=False)
             profile.user = request.user
             profile.save()
-            print(form)
 
             context['form'] = form
             glucose=form.cleaned_data.get('glucose')
@@ -119,12 +120,14 @@ def diabetes_prediction(request):
             request.session['isDiabetesPatient'] = True if result == 1 else False
             answer = "Diabetes detected." if result == 1 else "You don't have diabetes."
             context['answer'] = answer
+            context['disease_detected'] = True if result == 1 else False
             context['disease_name'] = "Diabetes"
             return render(request, 'backend/disease_prediction.html', context)
     else:
         form = DiabetesPatientForm()
         context['form'] = form
         context['answer'] = ""
+        context['disease_detected'] = False
     return render(request,'backend/disease_prediction.html', context)
 
 @login_required
@@ -157,12 +160,14 @@ def liver_prediction(request):
             answer = "Liver Disease detected." if result == 1 else "No, you don't liver disease."
             context['answer'] = answer
             context['disease_name'] = "Liver Disease"
+            context['disease_detected'] = True if result == 1 else False
           
             return render(request, 'backend/disease_prediction.html', context)
     else:
         form = LiverPatientForm()
         context['form'] = form
         context['answer'] = ""
+        context['disease_detected'] = False
     return render(request,'backend/disease_prediction.html', context)
 
 def disease_information(request, disease_name):
