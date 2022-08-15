@@ -15,35 +15,10 @@
     {% comment %} <link rel="stylesheet" type="text/css" href="{% static 'backend/main.css' %}"> {% endcomment %}
     <title>Maladie Prediction</title>
    
-    <!--Start of Tawk.to Script-->
-  <!-- <script type="text/javascript">
-  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-  (function(){
-  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-  s1.async=true;
-  s1.src='https://embed.tawk.to/6283c0bb7b967b11798fd298/1g39ahnjf';
-  s1.charset='UTF-8';
-  s1.setAttribute('crossorigin','*');
-  s0.parentNode.insertBefore(s1,s0);
-  })();
-  </script> -->
-  <!--End of Tawk.to Script-->
 </head>
 <body>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  {% comment %} <script type="text/javascript">
-    (function(d, m){
-        var kommunicateSettings = 
-            {"appId":"27d7cd10481ce1803bfffa929d5fd9516","popupWidget":true,"automaticChatOpenOnNavigation":true};
-        var s = document.createElement("script"); s.type = "text/javascript"; s.async = true;
-        s.src = "https://widget.kommunicate.io/v2/kommunicate.app";
-        var h = document.getElementsByTagName("head")[0]; h.appendChild(s);
-        window.kommunicate = m; m._globals = kommunicateSettings;
-    })(document, window.kommunicate || {});
-/* NOTE : Use web server to view HTML files as real-time update will not work if you directly open the HTML file in the browser. */
-</script>  {% endcomment %}
-  
         <div>
           {% block content %}{% endblock %}
         </div>

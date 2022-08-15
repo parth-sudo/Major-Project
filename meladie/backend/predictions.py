@@ -23,8 +23,8 @@ def heart_disease(age, sex, chest_pain_type, resting_blood_pressure, serum_chole
 
     parameters = (age, sex, chest_pain_type, resting_blood_pressure, serum_cholesterol, fasting_blood_sugar, resting_electrocardiographic_results, exercise_induced_angina, old_peak, slope, number_of_major_vessels_coloured_by_flouroscopy)
     
-    # heart_data = pd.read_csv("C:/Users/Admin/Downloads/heart_final.csv")
-    heart_data = pd.read_csv("C:/Users/DELL/Desktop/heart_final.csv")
+    heart_data = pd.read_csv("C:/Users/Admin/Downloads/heart_final.csv")
+    # heart_data = pd.read_csv("C:/Users/DELL/Desktop/heart_final.csv")
 
     # heart_data.head()
 
@@ -97,8 +97,8 @@ def liver_disease(age, gender, total_bilirubin, alkaline_phosphotase, alamine_am
 
     parameters = (age, gender, total_bilirubin, alkaline_phosphotase, alamine_aminotransferase, total_protiens, albumin)
     
-    # liver_data = pd.read_csv('C:/Users/Admin/Downloads/LiverDiseaseDataset.csv')
-    liver_data = pd.read_csv("C:/Users/DELL/Desktop/LiverDiseaseDataset.csv")
+    liver_data = pd.read_csv('C:/Users/Admin/Downloads/LiverDiseaseDataset.csv')
+    # liver_data = pd.read_csv("C:/Users/DELL/Desktop/LiverDiseaseDataset.csv")
     
     # Separating the data and labels
     X = liver_data.drop(columns = 'target', axis = 1)
